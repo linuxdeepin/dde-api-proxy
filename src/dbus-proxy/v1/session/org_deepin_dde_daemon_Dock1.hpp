@@ -25,13 +25,14 @@ public:
     virtual void signalMonitorCustom()
     {
         SubPathInit("Entries", [=](QString path){
-            qInfo() << "create dock.entry path proxy";
             QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
+            QString proxyPath = "/com/deepin/dde/daemon/Dock/entries/" + suffix;
+            qInfo() << "create dock.entry path proxy:" << proxyPath << "to" << path;
             return new SessionDaemonDock1EntryProxy(m_dbusName, 
                 path, 
                 "org.deepin.dde.daemon.Dock1.Entry", 
                 m_proxyDbusName, 
-                "/com/deepin/dde/daemon/Dock/entries/"+suffix, 
+                proxyPath, 
                 "com.deepin.dde.daemon.Dock.Entry",
                 m_dbusType);
         });

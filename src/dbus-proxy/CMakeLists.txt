@@ -22,4 +22,4 @@ endmacro(qt5_add_dbus_proxy_interface_fix)
 set(DBUS_PROXY_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory("v1")
-add_subdirectory("test-to-v0")
+# add_subdirectory("test-to-v0")

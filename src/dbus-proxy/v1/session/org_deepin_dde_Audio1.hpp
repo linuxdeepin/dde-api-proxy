@@ -26,24 +26,26 @@ public:
     virtual void signalMonitorCustom()
     {
         SubPathInit("Sinks", sinkPathMap, [=](QString path){
-            qInfo() << "create audio.sink path proxy";
             QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
+            QString proxyPath = "/com/deepin/daemon/Audio/" + suffix;
+            qInfo() << "create audio.sink path proxy:" << proxyPath << "to" << path;
             return new SessionAudio1SinkProxy(m_dbusName, 
                 path, 
                 "org.deepin.dde.Audio1.Sink", 
                 m_proxyDbusName, 
-                "/com/deepin/daemon/Audio/"+suffix, 
+                proxyPath, 
                 "com.deepin.daemon.Audio.Sink",
                 m_dbusType);
         });
         SubPathInit("Sources", sourcePathMap, [=](QString path){
-            qInfo() << "create audio.source path proxy";
             QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
+            QString proxyPath = "/com/deepin/daemon/Audio/" + suffix;
+            qInfo() << "create audio.source path proxy:" << proxyPath << "to" << path;
             return new SessionAudio1SourceProxy(m_dbusName, 
                 path, 
                 "org.deepin.dde.Audio1.Source", 
                 m_proxyDbusName, 
-                "/com/deepin/daemon/Audio/"+suffix, 
+                proxyPath, 
                 "com.deepin.daemon.Audio.Source",
                 m_dbusType);
         });

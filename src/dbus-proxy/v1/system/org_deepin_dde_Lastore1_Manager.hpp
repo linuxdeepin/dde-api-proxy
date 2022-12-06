@@ -27,9 +27,8 @@ public:
         // 目前的Proxy封装，对于同PATH下不同Interface没有处理，且因为PATH独占，不能同时代理Manager和Updater；因此暂时在Manager里面加上对Updater的代理。
         QStringList updaterFilterProps{"UpdatablePackages", "UpdatableApps"};
         connect(m_dbusUpdaterProxy, &DBusExtendedAbstractInterface::propertyChanged, this, [=](const QString &propName, const QVariant &value){
-            qInfo() << "propertyChanged:" << propName << value;
             if (!updaterFilterProps.contains(propName)) {
-                qInfo() << "propertyChanged-filter:property isnot allowed.";
+                qInfo() << "com.deepin.lastore.Updater" << "propertyChanged-filter:" << propName << "is not allowed.";
                 return;
             }
             QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, "org.freedesktop.DBus.Properties", "PropertiesChanged");

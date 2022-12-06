@@ -25,13 +25,14 @@ public:
     virtual void signalMonitorCustom()
     {
         SubPathInit("Monitors", [=](QString path){
-            qInfo() << "create display path proxy";
             QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
+            QString proxyPath = "/com/deepin/daemon/Display/" + suffix;
+            qInfo() << "create display.Monitor path proxy:" << proxyPath << "to" << path;
             return new SessionDisplay1MonitorProxy(m_dbusName, 
                 path, 
                 "org.deepin.dde.Display1.Monitor", 
                 m_proxyDbusName, 
-                "/com/deepin/daemon/Display/"+suffix, 
+                proxyPath, 
                 "com.deepin.daemon.Display.Monitor",
                 m_dbusType);
         });

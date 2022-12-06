@@ -25,13 +25,14 @@ public:
     virtual void signalMonitorCustom()
     {
         SubPathInit("UserList", [=](QString path){
-            qInfo() << "create accounts path proxy";
             QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
+            QString proxyPath = "/com/deepin/daemon/Accounts/" + suffix;
+            qInfo() << "create accounts.User path proxy:" << proxyPath << "to" << path;
             return new SystemAccounts1UserProxy(m_dbusName, 
                 path, 
                 "org.deepin.dde.Accounts1.User", 
                 m_proxyDbusName, 
-                "/com/deepin/daemon/Accounts/"+suffix, 
+                proxyPath, 
                 "com.deepin.daemon.Accounts.User",
                 m_dbusType);
         });
