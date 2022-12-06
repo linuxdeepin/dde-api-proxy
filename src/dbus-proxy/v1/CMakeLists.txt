@@ -59,7 +59,9 @@ qt5_add_dbus_proxy_interface_fix(SESSION_PROXY_INTERFACE_SOURCES v1/session/org.
 qt5_add_dbus_proxy_interface_fix(SESSION_PROXY_INTERFACE_SOURCES v1/session/org.deepin.dde.WMSwitcher1.xml Session_WMSwitcher1 v1/session/session_org_deepin_dde_WMSwitcher1)
 qt5_add_dbus_proxy_interface_fix(SESSION_PROXY_INTERFACE_SOURCES v1/session/org.deepin.dde.InputDevices1.xml Session_InputDevices1 v1/session/session_org_deepin_dde_InputDevices1)
 qt5_add_dbus_proxy_interface_fix(SESSION_PROXY_INTERFACE_SOURCES v1/session/org.deepin.dde.InputDevice1.Wacom.xml Session_InputDevice1Wacom v1/session/session_org_deepin_dde_InputDevice1_Wacom)
+qt5_add_dbus_proxy_interface_fix(SESSION_PROXY_INTERFACE_SOURCES v1/session/org.deepin.dde.InputDevice1.TouchPad.xml Session_InputDevice1TouchPad v1/session/session_org_deepin_dde_InputDevice1_TouchPad)
 qt5_add_dbus_proxy_interface_fix(SESSION_PROXY_INTERFACE_SOURCES v1/session/org.deepin.dde.daemon.Dock1.Entry.xml Session_Dock1Entry v1/session/session_org_deepin_dde_daemon_Dock1_Entry)
+
 
 add_executable(${PRO_SYSTEM_NAME}
     system/main.cpp

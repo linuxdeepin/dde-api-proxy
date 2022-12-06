@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
     qInfo() << "dbus system proxy:" << serviceMoudle;
 
     if (serviceMoudle.contains("dde-daemon")) {
+        qInfo() << "dbus system proxy start:" << "dde-daemon";
         new SystemAccounts1Proxy("org.deepin.dde.Accounts1", "/org/deepin/dde/Accounts1", "org.deepin.dde.Accounts1", 
             "com.deepin.daemon.Accounts", "/com/deepin/daemon/Accounts", "com.deepin.daemon.Accounts", QDBusConnection::SystemBus);
         new SystemDisplay1Proxy("org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1", 
@@ -79,18 +80,23 @@ int main(int argc, char *argv[])
             "com.deepin.daemon.Timedated", "/com/deepin/daemon/Timedated", "com.deepin.daemon.Timedated", QDBusConnection::SystemBus);
     }
     if (serviceMoudle.contains("lastore-daemon")) {
+        qInfo() << "dbus system proxy start:" << "lastore-daemon";
         // SystemLastore1ManagerProxy: 包含Manager和Updater
         new SystemLastore1ManagerProxy("org.deepin.dde.Lastore1", "/org/deepin/dde/Lastore1", "org.deepin.dde.Lastore1.Manager", 
             "com.deepin.lastore", "/com/deepin/lastore", "com.deepin.lastore.Manager", QDBusConnection::SystemBus);
     }
     if (serviceMoudle.contains("dde-lockservice")) {
+        qInfo() << "dbus system proxy start:" << "dde-lockservice";
         new SystemLockService1Proxy("org.deepin.dde.LockService1", "/org/deepin/dde/LockService1", "org.deepin.dde.LockService1", 
             "com.deepin.dde.LockService", "/com/deepin/dde/LockService", "com.deepin.dde.LockService", QDBusConnection::SystemBus);
     }
     if (serviceMoudle.contains("deepin-pw-check")) {
+        qInfo() << "dbus system proxy start:" << "deepin-pw-check";
         new SystemPasswdConf1Proxy("org.deepin.dde.PasswdConf1", "/org/deepin/dde/PasswdConf1", "org.deepin.dde.PasswdConf1", 
             "com.deepin.daemon.PasswdConf", "/com/deepin/daemon/PasswdConf", "com.deepin.daemon.PasswdConf", QDBusConnection::SystemBus);
     }
+
+    qInfo() << "dbus system proxy start finish.";
 
     return a.exec();
 }

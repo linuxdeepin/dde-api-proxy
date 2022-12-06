@@ -1,2 +1,6 @@
 build/
 .vscode/
+obj-x86_64-linux-gnu/
+debian/.debhelper
+debian/dde-api-proxy
+debhelper-build-stamp

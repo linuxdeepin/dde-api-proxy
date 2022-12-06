@@ -1,4 +1,4 @@
 [D-BUS Service]
-Name=com.deepin.system.Display
+Name=com.deepin.daemon.Keybinding
 Exec=/usr/bin/false
 SystemdService=dde-api-dbus-proxy-v1@all.service
