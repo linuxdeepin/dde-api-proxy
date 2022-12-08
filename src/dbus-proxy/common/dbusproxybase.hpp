@@ -127,7 +127,6 @@ public:
             // qInfo() << "propertyChanged:" << propName << value;
             if (m_filterProperiesEnable && !m_filterProperies.contains(propName)) {
                 qInfo() << m_proxyDbusName << "propertyChanged-filter:" << propName << "is not allowed.";
-                QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(QDBusMessage::createError("com.deepin.dde.error.NotAllowed", "is not allowed"));
                 return;
             }
             QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, "org.freedesktop.DBus.Properties", "PropertiesChanged");
