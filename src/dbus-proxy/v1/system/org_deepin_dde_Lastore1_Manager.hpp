@@ -25,15 +25,21 @@ public:
     virtual void signalMonitorCustom()
     {
         // 目前的Proxy封装，对于同PATH下不同Interface没有处理，且因为PATH独占，不能同时代理Manager和Updater；因此暂时在Manager里面加上对Updater的代理。
+        QString updaterProxyInterface;
+        if (m_proxyDbusName == "com.deepin.lastore") {
+            updaterProxyInterface = "com.deepin.lastore.Updater";
+        } else if (m_proxyDbusName == "org.deepin.lastore1") {
+            updaterProxyInterface = "org.deepin.lastore1.Updater";
+        }
         QStringList updaterFilterProps{"UpdatablePackages", "UpdatableApps"};
         connect(m_dbusUpdaterProxy, &DBusExtendedAbstractInterface::propertyChanged, this, [=](const QString &propName, const QVariant &value){
             if (!updaterFilterProps.contains(propName)) {
-                qInfo() << "com.deepin.lastore.Updater" << "propertyChanged-filter:" << propName << "is not allowed.";
+                qInfo() << updaterProxyInterface << "propertyChanged-filter:" << propName << "is not allowed.";
                 return;
             }
             QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, "org.freedesktop.DBus.Properties", "PropertiesChanged");
             QList<QVariant> arguments;
-            arguments.push_back("com.deepin.lastore.Updater");
+            arguments.push_back(updaterProxyInterface);
             QVariantMap changedProps;
             changedProps.insert(propName, value);
             arguments.push_back(changedProps);

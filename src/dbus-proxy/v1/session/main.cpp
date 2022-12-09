@@ -128,11 +128,16 @@ int main(int argc, char *argv[])
 
     if (serviceMoudle.contains("dde-appearance")) {
         qInfo() << "Start the proxy module:" << "dde-appearance";
+        // V0 -> V1
         new SessionAppearance1Proxy("org.deepin.dde.Appearance1", "/org/deepin/dde/Appearance1", "org.deepin.dde.Appearance1", 
             "com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", QDBusConnection::SessionBus);
+        // V0.5 -> V1
+        new SessionAppearance1Proxy("org.deepin.dde.Appearance1", "/org/deepin/dde/Appearance1", "org.deepin.dde.Appearance1", 
+            "org.deepin.daemon.Appearance1", "/org/deepin/daemon/Appearance1", "org.deepin.daemon.Appearance1", QDBusConnection::SessionBus);
     }
     if (serviceMoudle.contains("dde-daemon")) {
         qInfo() << "Start the proxy module:" << "dde-daemon";
+        // V0 -> V1
         new SessionAudio1Proxy("org.deepin.dde.Audio1", "/org/deepin/dde/Audio1", "org.deepin.dde.Audio1", 
             "com.deepin.daemon.Audio", "/com/deepin/daemon/Audio", "com.deepin.daemon.Audio", QDBusConnection::SessionBus);
         new SessionBluetooth1Proxy("org.deepin.dde.Bluetooth1", "/org/deepin/dde/Bluetooth1", "org.deepin.dde.Bluetooth1", 
@@ -163,14 +168,33 @@ int main(int argc, char *argv[])
             "com.deepin.dde.TrayManager", "/com/deepin/dde/TrayManager", "com.deepin.dde.TrayManager", QDBusConnection::SessionBus);
         new SessionXEventMonitor1Proxy("org.deepin.dde.XEventMonitor1", "/org/deepin/dde/XEventMonitor1", "org.deepin.dde.XEventMonitor1", 
             "com.deepin.api.XEventMonitor", "/com/deepin/api/XEventMonitor", "com.deepin.api.XEventMonitor", QDBusConnection::SessionBus);
+        // V0.5 -> V1
+        new SessionAudio1Proxy("org.deepin.dde.Audio1", "/org/deepin/dde/Audio1", "org.deepin.dde.Audio1", 
+            "org.deepin.daemon.Audio1", "/org/deepin/daemon/Audio1", "org.deepin.daemon.Audio1", QDBusConnection::SessionBus);
+        new SessionBluetooth1Proxy("org.deepin.dde.Bluetooth1", "/org/deepin/dde/Bluetooth1", "org.deepin.dde.Bluetooth1", 
+            "org.deepin.daemon.Bluetooth1", "/org/deepin/daemon/Bluetooth1", "org.deepin.daemon.Bluetooth1", QDBusConnection::SessionBus);
+        new SessionLangSelector1Proxy("org.deepin.dde.LangSelector1", "/org/deepin/dde/LangSelector1", "org.deepin.dde.LangSelector1", 
+            "org.deepin.daemon.LangSelector1", "/org/deepin/daemon/LangSelector1", "org.deepin.daemon.LangSelector1", QDBusConnection::SessionBus);
+        new SessionPower1Proxy("org.deepin.dde.Power1", "/org/deepin/dde/Power1", "org.deepin.dde.Power1", 
+            "org.deepin.daemon.Power1", "/org/deepin/daemon/Power1", "org.deepin.daemon.Power1", QDBusConnection::SessionBus);
+        new SessionSoundEffect1Proxy("org.deepin.dde.SoundEffect1", "/org/deepin/dde/SoundEffect1", "org.deepin.dde.SoundEffect1", 
+            "org.deepin.daemon.SoundEffect1", "/org/deepin/daemon/SoundEffect1", "org.deepin.daemon.SoundEffect1", QDBusConnection::SessionBus);
+        new SessionTimedate1Proxy("org.deepin.dde.Timedate1", "/org/deepin/dde/Timedate1", "org.deepin.dde.Timedate1", 
+            "org.deepin.daemon.Timedate1", "/org/deepin/daemon/Timedate1", "org.deepin.daemon.Timedate1", QDBusConnection::SessionBus);
+        new SessionSystemInfo1Proxy("org.deepin.dde.SystemInfo1", "/org/deepin/dde/SystemInfo1", "org.deepin.dde.SystemInfo1", 
+            "org.deepin.daemon.SystemInfo1", "/org/deepin/daemon/SystemInfo1", "org.deepin.daemon.SystemInfo1", QDBusConnection::SessionBus);
+        new SessionXEventMonitor1Proxy("org.deepin.dde.XEventMonitor1", "/org/deepin/dde/XEventMonitor1", "org.deepin.dde.XEventMonitor1", 
+            "org.deepin.api.XEventMonitor1", "/org/deepin/api/XEventMonitor1", "org.deepin.api.XEventMonitor1", QDBusConnection::SessionBus);
     }
     if (serviceMoudle.contains("startdde")) {
         qInfo() << "Start the proxy module:" << "startdde";
+        // V0 -> V1
         new SessionDisplay1Proxy("org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1", 
             "com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display", QDBusConnection::SessionBus);
     }
     if (serviceMoudle.contains("dde-session")) {
         qInfo() << "Start the proxy module:" << "dde-session";
+        // V0 -> V1
         new SessionSessionManager1Proxy("org.deepin.dde.SessionManager1", "/org/deepin/dde/SessionManager1", "org.deepin.dde.SessionManager1", 
             "com.deepin.SessionManager", "/com/deepin/SessionManager", "com.deepin.SessionManager", QDBusConnection::SessionBus);
         new SessionWMSwitcher1Proxy("org.deepin.dde.WMSwitcher1", "/org/deepin/dde/WMSwitcher1", "org.deepin.dde.WMSwitcher1", 
@@ -178,11 +202,13 @@ int main(int argc, char *argv[])
     }
     if (serviceMoudle.contains("dde-permission-manager")) {
         qInfo() << "Start the proxy module:" << "dde-permission-manager";
+        // V0 -> V1
         new SessionPermission1Proxy("org.deepin.dde.Permission1", "/org/deepin/dde/Permission1", "org.deepin.dde.Permission1", 
             "org.desktopspec.permission", "/org/desktopspec/permission", "org.desktopspec.permission", QDBusConnection::SessionBus);
     }
     if (serviceMoudle.contains("dde-application-manager")) {
         qInfo() << "Start the proxy module:" << "dde-application-manager";
+        // V0 -> V1
         new SessionDaemonDock1Proxy("org.deepin.dde.daemon.Dock1", "/org/deepin/dde/daemon/Dock1", "org.deepin.dde.daemon.Dock1", 
             "com.deepin.dde.daemon.Dock", "/com/deepin/dde/daemon/Dock", "com.deepin.dde.daemon.Dock", QDBusConnection::SessionBus);
         new SessionDaemonLauncher1Proxy("org.deepin.dde.daemon.Launcher1", "/org/deepin/dde/daemon/Launcher1", "org.deepin.dde.daemon.Launcher1", 
@@ -193,21 +219,25 @@ int main(int argc, char *argv[])
     }
     if (serviceMoudle.contains("dde-control-center")) {
         qInfo() << "Start the proxy module:" << "dde-control-center";
+        // V0 -> V1
         new SessionControlCenter1Proxy("org.deepin.dde.ControlCenter1", "/org/deepin/dde/ControlCenter1", "org.deepin.dde.ControlCenter1", 
             "com.deepin.dde.ControlCenter", "/com/deepin/dde/ControlCenter", "com.deepin.dde.ControlCenter", QDBusConnection::SessionBus);
     }
     if (serviceMoudle.contains("dde-dock")) {
         qInfo() << "Start the proxy module:" << "dde-dock";
+        // V0 -> V1
         new SessionDock1Proxy("org.deepin.dde.Dock1", "/org/deepin/dde/Dock1", "org.deepin.dde.Dock1", 
             "com.deepin.dde.Dock", "/com/deepin/dde/Dock", "com.deepin.dde.Dock", QDBusConnection::SessionBus);
     }
     if (serviceMoudle.contains("dde-launcher")) {
         qInfo() << "Start the proxy module:" << "dde-launcher";
+        // V0 -> V1
         new SessionLauncher1Proxy("org.deepin.dde.Launcher1", "/org/deepin/dde/Launcher1", "org.deepin.dde.Launcher1", 
             "com.deepin.dde.Launcher", "/com/deepin/dde/Launcher", "com.deepin.dde.Launcher", QDBusConnection::SessionBus);
     }
     if (serviceMoudle.contains("dde-lock")) {
         qInfo() << "Start the proxy module:" << "dde-lock";
+        // V0 -> V1
         new SessionLockFront1Proxy("org.deepin.dde.LockFront1", "/org/deepin/dde/LockFront1", "org.deepin.dde.LockFront1", 
             "com.deepin.dde.lockFront", "/com/deepin/dde/lockFront", "com.deepin.dde.lockFront", QDBusConnection::SessionBus);
         new SessionShutdownFront1Proxy("org.deepin.dde.ShutdownFront1", "/org/deepin/dde/ShutdownFront1", "org.deepin.dde.ShutdownFront1", 
@@ -215,6 +245,7 @@ int main(int argc, char *argv[])
     }
     if (serviceMoudle.contains("dde-osd")) {
         qInfo() << "Start the proxy module:" << "dde-osd";
+        // V0 -> V1
         new SessionNotification1Proxy("org.deepin.dde.Notification1", "/org/deepin/dde/Notification1", "org.deepin.dde.Notification1", 
             "com.deepin.dde.Notification", "/com/deepin/dde/Notification", "com.deepin.dde.Notification", QDBusConnection::SessionBus);
         new SessionOsd1Proxy("org.deepin.dde.Osd1", "/org/deepin/dde/Osd1", "org.deepin.dde.Osd1", 

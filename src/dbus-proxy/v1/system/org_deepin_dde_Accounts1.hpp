@@ -24,18 +24,30 @@ public:
     }
     virtual void signalMonitorCustom()
     {
+        QString subPathInterface  = "org.deepin.dde.Accounts1.User";
+        QString subPathProxyInterface;
+        QString subPathProxyPathPrefix;
+        if (m_proxyDbusName == "com.deepin.daemon.Accounts") {
+            // V0 -> V1子PATH处理
+            subPathProxyInterface = "com.deepin.daemon.Accounts.User";
+            subPathProxyPathPrefix = "/com/deepin/daemon/Accounts/";
+        } else if (m_proxyDbusName == "org.deepin.daemon.Accounts1") {
+            // V0.5 -> V1子PATH处理
+            subPathProxyInterface = "org.deepin.daemon.Accounts1.User";
+            subPathProxyPathPrefix = "/org/deepin/daemon/Accounts1/";
+        }
         SubPathInit("UserList", [=](QString path){
             QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
-            QString proxyPath = "/com/deepin/daemon/Accounts/" + suffix;
+            QString proxyPath = subPathProxyPathPrefix + suffix;
             qInfo() << "create accounts.User path proxy:" << proxyPath << "to" << path;
             return new SystemAccounts1UserProxy(m_dbusName, 
                 path, 
-                "org.deepin.dde.Accounts1.User", 
+                subPathInterface, 
                 m_proxyDbusName, 
                 proxyPath, 
-                "com.deepin.daemon.Accounts.User",
+                subPathProxyInterface,
                 m_dbusType);
-        });
+            });
     }
 private:
     org::deepin::dde::Accounts1 *m_dbusProxy;

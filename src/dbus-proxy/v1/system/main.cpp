@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
 
     if (serviceMoudle.contains("dde-daemon")) {
         qInfo() << "Start the proxy module:" << "dde-daemon";
+        // V0 -> V1
         new SystemAccounts1Proxy("org.deepin.dde.Accounts1", "/org/deepin/dde/Accounts1", "org.deepin.dde.Accounts1", 
             "com.deepin.daemon.Accounts", "/com/deepin/daemon/Accounts", "com.deepin.daemon.Accounts", QDBusConnection::SystemBus);
         new SystemDisplay1Proxy("org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1", 
@@ -79,20 +80,41 @@ int main(int argc, char *argv[])
             "com.deepin.system.SystemInfo", "/com/deepin/system/SystemInfo", "com.deepin.system.SystemInfo", QDBusConnection::SystemBus);
         new SystemTimedate1Proxy("org.deepin.dde.Timedate1", "/org/deepin/dde/Timedate1", "org.deepin.dde.Timedate1", 
             "com.deepin.daemon.Timedated", "/com/deepin/daemon/Timedated", "com.deepin.daemon.Timedated", QDBusConnection::SystemBus);
+        // V0.5 -> V1
+        new SystemAccounts1Proxy("org.deepin.dde.Accounts1", "/org/deepin/dde/Accounts1", "org.deepin.dde.Accounts1", 
+            "org.deepin.daemon.Accounts1", "/org/deepin/daemon/Accounts1", "org.deepin.daemon.Accounts1", QDBusConnection::SystemBus);
+        new SystemGrub2Proxy("org.deepin.dde.Grub2", "/org/deepin/dde/Grub2", "org.deepin.dde.Grub2", 
+            "org.deepin.daemon.Grub2", "/org/deepin/daemon/Grub2", "org.deepin.daemon.Grub2", QDBusConnection::SystemBus);
+        new SystemGrub2ThemeProxy("org.deepin.dde.Grub2", "/org/deepin/dde/Grub2/Theme", "org.deepin.dde.Grub2.Theme", 
+            "org.deepin.daemon.Grub2", "/org/deepin/daemon/Grub2/Theme", "org.deepin.daemon.Grub2.Theme", QDBusConnection::SystemBus);
+        new SystemGrub2EditAuthenticationProxy("org.deepin.dde.Grub2", "/org/deepin/dde/Grub2/EditAuthentication", "org.deepin.dde.Grub2.EditAuthentication", 
+            "org.deepin.daemon.Grub2", "/org/deepin/daemon/Grub2/EditAuthentication", "org.deepin.daemon.Grub2.EditAuthentication", QDBusConnection::SystemBus);
+        new SystemPower1Proxy("org.deepin.dde.Power1", "/org/deepin/dde/Power1", "org.deepin.dde.Power1", 
+            "org.deepin.system.Power1", "/org/deepin/system/Power1", "org.deepin.system.Power1", QDBusConnection::SystemBus);
+        new SystemSystemInfo1Proxy("org.deepin.dde.SystemInfo1", "/org/deepin/dde/SystemInfo1", "org.deepin.dde.SystemInfo1", 
+            "org.deepin.system.SystemInfo1", "/org/deepin/system/SystemInfo1", "org.deepin.system.SystemInfo1", QDBusConnection::SystemBus);
+        new SystemTimedate1Proxy("org.deepin.dde.Timedate1", "/org/deepin/dde/Timedate1", "org.deepin.dde.Timedate1", 
+            "org.deepin.daemon.Timedated1", "/org/deepin/daemon/Timedated1", "org.deepin.daemon.Timedated1", QDBusConnection::SystemBus);
     }
     if (serviceMoudle.contains("lastore-daemon")) {
         qInfo() << "Start the proxy module:" << "lastore-daemon";
         // SystemLastore1ManagerProxy: 包含Manager和Updater
+        // V0 -> V1
         new SystemLastore1ManagerProxy("org.deepin.dde.Lastore1", "/org/deepin/dde/Lastore1", "org.deepin.dde.Lastore1.Manager", 
             "com.deepin.lastore", "/com/deepin/lastore", "com.deepin.lastore.Manager", QDBusConnection::SystemBus);
+        // V0.5 -> V1
+        new SystemLastore1ManagerProxy("org.deepin.dde.Lastore1", "/org/deepin/dde/Lastore1", "org.deepin.dde.Lastore1.Manager", 
+            "org.deepin.lastore1", "/org/deepin/lastore1", "org.deepin.lastore1.Manager", QDBusConnection::SystemBus);
     }
     if (serviceMoudle.contains("dde-lockservice")) {
         qInfo() << "Start the proxy module:" << "dde-lockservice";
+        // V0 -> V1
         new SystemLockService1Proxy("org.deepin.dde.LockService1", "/org/deepin/dde/LockService1", "org.deepin.dde.LockService1", 
             "com.deepin.dde.LockService", "/com/deepin/dde/LockService", "com.deepin.dde.LockService", QDBusConnection::SystemBus);
     }
     if (serviceMoudle.contains("deepin-pw-check")) {
         qInfo() << "Start the proxy module:" << "deepin-pw-check";
+        // V0 -> V1
         new SystemPasswdConf1Proxy("org.deepin.dde.PasswdConf1", "/org/deepin/dde/PasswdConf1", "org.deepin.dde.PasswdConf1", 
             "com.deepin.daemon.PasswdConf", "/com/deepin/daemon/PasswdConf", "com.deepin.daemon.PasswdConf", QDBusConnection::SystemBus);
     }
