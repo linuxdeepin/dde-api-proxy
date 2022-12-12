@@ -2,6 +2,7 @@
 
 #include "dbusproxybase.hpp"
 #include "session_org_deepin_dde_ControlCenter1.h"
+#include "session_org_deepin_dde_ControlCenter1_GrandSearch.h"
 
 class SessionControlCenter1Proxy : public DBusProxyBase {
     
@@ -40,15 +41,31 @@ public:
                 return true;
             }
         }
+        // 目前的Proxy封装，对于同PATH下不同Interface没有统一处理，所以在这里处理com.deepin.dde.ControlCenter.GrandSearch代理
+        if (message.interface() == "com.deepin.dde.ControlCenter.GrandSearch") {
+            QStringList updaterFilterMethods{"Action", "Search", "Stop"};
+            if (!updaterFilterMethods.contains(message.member())) {
+                qInfo() << "com.deepin.dde.ControlCenter.GrandSearch" << "method-filter:" << message.member() << "is not allowed.";
+                connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "is not allowed"));
+                return true;
+            }
+            QDBusPendingCall call = m_dbusGrandSearchProxy->asyncCallWithArgumentList(message.member(), message.arguments());
+            call.waitForFinished();
+            connection.send(message.createReply(call.reply().arguments()));
+            return true;
+        }
         return false;
     }
+
     virtual DBusExtendedAbstractInterface *initConnect() 
     {
         m_dbusProxy = new org::deepin::dde::ControlCenter1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
+        m_dbusGrandSearchProxy = new org::deepin::dde::controlcenter1::GrandSearch(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;
     }
 private:
     org::deepin::dde::ControlCenter1 *m_dbusProxy;
+    org::deepin::dde::controlcenter1::GrandSearch *m_dbusGrandSearchProxy;
 };
 
 
