@@ -79,7 +79,7 @@ public:
         if (message.interface() == m_proxyDbusInterface) {
             // qInfo() << "message.interface()=" << message.interface();
             if (m_filterMethodsEnable && !m_filterMethods.contains(message.member())) {
-                qInfo() << m_proxyDbusName << "method-filter:" << message.member() << "is not allowed.";
+                qInfo() << m_proxyDbusInterface << "method-filter:" << message.member() << "is not allowed.";
                 connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "is not allowed"));
                 return true;
             }
@@ -91,23 +91,28 @@ public:
         if (message.interface() == "org.freedesktop.DBus.Properties") {
             QString calledInterface = message.arguments().at(0).toString();
             if (calledInterface != m_proxyDbusInterface) {
-                qInfo() << m_proxyDbusName << "Properties-filter:" << calledInterface << "is not allowed.";
+                qInfo() << m_proxyDbusInterface << "Properties-filter:" << calledInterface << "is not allowed.";
                 connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "is not allowed"));
                 return true;
             }
             QString prop = message.arguments().at(1).toString();
             if (prop.isEmpty() || (m_filterProperiesEnable && !m_filterProperies.contains(prop))) {
-                qInfo() << m_proxyDbusName << "Properties-filter:" << prop << "is not allowed.";
+                qInfo() << m_proxyDbusInterface << "Properties-filter:" << prop << "is not allowed.";
                 connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "is not allowed"));
                 return true;
             }
             if (message.member() == "Get") {
-                qInfo() << m_proxyDbusName << "Properties-Get:" << prop;
+                qInfo() << m_proxyDbusInterface << "Properties-Get:" << prop;
                 QVariant var = m_proxy->property(prop.toStdString().c_str());
-                connection.send(message.createReply(var));
+                if (!var.isValid()) {
+                    qWarning() << m_proxyDbusInterface << "Properties-Get error: Unknow";
+                    connection.send(message.createErrorReply("com.deepin.dde.error.Unknow", "unknow error"));
+                } else {
+                    connection.send(message.createReply(var));
+                }
                 return true;
             } else if (message.member() == "Set") {
-                qInfo() << m_proxyDbusName << "Properties-Set:" << prop;
+                qInfo() << m_proxyDbusInterface << "Properties-Set:" << prop;
                 m_proxy->setProperty(prop.toStdString().c_str(), message.arguments().at(2));
                 connection.send(message.createReply());
                 return true;
@@ -126,7 +131,7 @@ public:
         connect(m_proxy, &DBusExtendedAbstractInterface::propertyChanged, this, [this](const QString &propName, const QVariant &value){
             // qInfo() << "propertyChanged:" << propName << value;
             if (m_filterProperiesEnable && !m_filterProperies.contains(propName)) {
-                qInfo() << m_proxyDbusName << "propertyChanged-filter:" << propName << "is not allowed.";
+                qInfo() << m_proxyDbusInterface << "propertyChanged-filter:" << propName << "is not allowed.";
                 return;
             }
             QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, "org.freedesktop.DBus.Properties", "PropertiesChanged");
@@ -148,7 +153,7 @@ public:
             if (name != propName) {
                 return;
             }
-            qInfo() << m_proxyDbusName << "propertyChanged-subPathChanged:" << name << value;
+            qInfo() << m_proxyDbusInterface << "propertyChanged-subPathChanged:" << name << value;
             subPathHandler(value, m_pathMap, func);
         });
     }
@@ -161,7 +166,7 @@ public:
             if (name != propName) {
                 return;
             }
-            qInfo() << m_proxyDbusName << "propertyChanged-subPathChanged:" << name << value;
+            qInfo() << m_proxyDbusInterface << "propertyChanged-subPathChanged:" << name << value;
             subPathHandler(value, pathMap, func);
         });
     }
@@ -179,10 +184,10 @@ public:
         } else if (varType == "QStringList") {
             paths = pathsVar.value<QStringList>();
         } else {
-            qWarning() << m_proxyDbusName << "sub path handler, error variant type:" << pathsVar.typeName();
+            qWarning() << m_proxyDbusInterface << "sub path handler, error variant type:" << pathsVar.typeName();
             return;
         }
-        qInfo() << m_proxyDbusName << "sub path handler, paths:" << paths;
+        qInfo() << m_proxyDbusInterface << "sub path handler, paths:" << paths;
         QVector<QString> newPaths;
         QVector<QString> deletePaths;
         for (auto path : paths) {
@@ -204,7 +209,7 @@ public:
             }
         }
         for (auto addPath : newPaths) {
-            qInfo() << m_proxyDbusName << "add sub path:" << addPath;
+            qInfo() << m_proxyDbusInterface << "add sub path:" << addPath;
             pathMap.insert(addPath, func(addPath));
         }
         for (auto deletePath : deletePaths) {
@@ -212,7 +217,7 @@ public:
             if (iter != pathMap.end()) {
                 DBusProxyBase *proxy = iter.value();
                 if (proxy) {
-                    qInfo() << m_proxyDbusName << "delete sub path:" << deletePath;
+                    qInfo() << m_proxyDbusInterface << "delete sub path:" << deletePath;
                     proxy->ServiceStop();
                     delete proxy;
                     pathMap.erase(iter);
@@ -226,11 +231,11 @@ public slots:
     {
         m_proxy = initConnect();
         if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerService(m_proxyDbusName)) {
-            qWarning() << m_proxyDbusName << "failed to register service:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
+            qWarning() << m_proxyDbusInterface << "failed to register service:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
             return;
         }
         if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerVirtualObject(m_proxyDbusPath, this)) {
-            qWarning() << m_proxyDbusName << "failed to register object:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
+            qWarning() << m_proxyDbusInterface << "failed to register object:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
             return;
         }
         signalMonitor();

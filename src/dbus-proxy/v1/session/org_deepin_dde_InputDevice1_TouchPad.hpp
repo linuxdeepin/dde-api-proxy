@@ -11,7 +11,7 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"Exist", "TPadEnable"}));
+        InitFilterProperies(QStringList({"Exist", "TPadEnable", "DeviceList"}));
         InitFilterMethods(QStringList({}));
         ServiceStart();
     }

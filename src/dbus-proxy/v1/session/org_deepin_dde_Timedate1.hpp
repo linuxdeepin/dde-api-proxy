@@ -11,7 +11,7 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({}));
+        InitFilterProperies(QStringList({"CanNTP", "NTP", "Timezone"}));
         InitFilterMethods(QStringList({"SetNTPServer"}));
         ServiceStart();
     }

@@ -13,7 +13,7 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"FrontendWindowRect", "HideState", "HideMode"}));
+        InitFilterProperies(QStringList({"FrontendWindowRect", "HideState", "HideMode", "DisplayMode", "Position"}));
         InitFilterMethods(QStringList({"RequestDock", "RequestUndock", "ActivateWindow"}));
         ServiceStart();
     }

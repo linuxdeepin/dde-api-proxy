@@ -12,7 +12,7 @@ public:
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
         InitFilterProperies(QStringList({}));
-        InitFilterMethods(QStringList({"RegisterFullScreenMotionFlag"}));
+        InitFilterMethods(QStringList({"RegisterFullScreenMotionFlag", "RegisterArea", "UnregisterArea"}));
         ServiceStart();
     }
     virtual DBusExtendedAbstractInterface *initConnect() 

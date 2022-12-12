@@ -4,4 +4,4 @@ Description=dde-api-proxy-v1 service for %I
 [Service]
 Type=simple
 ExecStart=/usr/lib/dde-api-proxy/dbus-proxy/dde-api-dbus-proxy-session-v1 --%I
-Slice=services.Slice
+Slice=services.slice

@@ -14,7 +14,7 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"SinkInputs", "CardsWithoutUnavailable", "DefaultSource", "MaxUIVolume", "DefaultSink"}));
+        InitFilterProperies(QStringList({"SinkInputs", "CardsWithoutUnavailable", "DefaultSource", "MaxUIVolume", "DefaultSink", "BluetoothAudioModeOpts"}));
         InitFilterMethods(QStringList({}));
         ServiceStart();
     }
