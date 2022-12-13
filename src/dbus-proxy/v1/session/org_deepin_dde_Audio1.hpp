@@ -40,30 +40,26 @@ public:
             subPathSourceProxyInterface = "org.deepin.daemon.Audio1.Source";
             subPathProxyPathPrefix = "/org/deepin/daemon/Audio1/";
         }
-        SubPathInit("Sinks", sinkPathMap, [=](QString path){
-            QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
-            QString proxyPath = subPathProxyPathPrefix + suffix;
-            qInfo() << "create audio.sink path proxy:" << proxyPath << "to" << path;
-            return new SessionAudio1SinkProxy(m_dbusName,
-                path,
-                subPathSinkInterface,
-                m_proxyDbusName,
-                proxyPath,
+        SubPathInit("Sinks", DBusProxySubPathInfo{
+                subPathProxyPathPrefix,
                 subPathSinkProxyInterface,
-                m_dbusType);
-        });
-        SubPathInit("Sources", sourcePathMap, [=](QString path){
-            QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
-            QString proxyPath = subPathProxyPathPrefix + suffix;
-            qInfo() << "create audio.source path proxy:" << proxyPath << "to" << path;
-            return new SessionAudio1SourceProxy(m_dbusName,
-                path,
-                subPathSourceInterface,
-                m_proxyDbusName,
-                proxyPath,
+                subPathSinkInterface},
+                sinkPathMap,
+            [=](QString path, QString interface, QString proxyPath, QString proxyInterface){
+                return new SessionAudio1SinkProxy(m_dbusName, path, interface,
+                    m_proxyDbusName, proxyPath, proxyInterface, m_dbusType);
+            }
+        );
+        SubPathInit("Sources", DBusProxySubPathInfo{
+                subPathProxyPathPrefix,
                 subPathSourceProxyInterface,
-                m_dbusType);
-        });
+                subPathSourceInterface},
+                sourcePathMap,
+            [=](QString path, QString interface, QString proxyPath, QString proxyInterface){
+                return new SessionAudio1SourceProxy(m_dbusName, path, interface,
+                    m_proxyDbusName, proxyPath, proxyInterface, m_dbusType);
+            }
+        );
     }
 private:
     org::deepin::dde::Audio1 *m_dbusProxy;

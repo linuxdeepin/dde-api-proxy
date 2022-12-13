@@ -16,7 +16,11 @@
 #include <QtCore/QVariant>
 #include <QtDBus/QtDBus>
 
-// typdef DBusProxyBase*(*SubPathCB)();
+typedef struct DBusProxySubPathInfoDef {
+    QString proxyPathPrefix;
+    QString proxyInterface;
+    QString interface;
+}DBusProxySubPathInfo;
 
 class DBusProxyBase : public QDBusVirtualObject {
 public:
@@ -38,10 +42,9 @@ public:
         moveToThread(m_thread);
     }
     virtual	~DBusProxyBase() {
-        QDBusConnection::connectToBus(QDBusConnection::SessionBus, m_proxyDbusName).unregisterObject(m_proxyDbusPath);
-        if (m_proxy) {
-            delete m_proxy;
-        }
+        QMetaObject::invokeMethod(this, &DBusProxyBase::serviceStop, Qt::BlockingQueuedConnection);
+        m_thread->quit();
+        m_thread->wait(1000);
     }
     // handleMessageCustom:可选，无定义方法处理可不实现
     virtual	bool handleMessageCustom(const QDBusMessage &message, const QDBusConnection &connection) {return false;}
@@ -55,10 +58,7 @@ public:
         qInfo() << "proxy:" << m_proxyDbusName << "to" << m_dbusName;
         m_thread->start();
     }
-    void ServiceStop()
-    {
-        m_thread->quit();
-    }
+    
     // 不设置默认不检验，全部有权限；设置了后list中指定的才有权限
     void InitFilterProperies(QStringList list) {
         m_filterProperiesEnable = true;
@@ -116,11 +116,31 @@ public:
                     qWarning() << m_proxyDbusInterface << "Properties-Get error: Unknow";
                     connection.send(message.createErrorReply("com.deepin.dde.error.Unknow", "unknow error"));
                 } else {
-                    connection.send(message.createReply(var));
+                    auto iterFind = m_pathInfoMap.find(prop);
+                    if (iterFind != m_pathInfoMap.end()) {
+                        // 如果属性是subPath的属性，则需要转换
+                        const DBusProxySubPathInfo &pathInfo = iterFind.value();
+                        QVariant varFix;
+                        if (subPathVariantCast(var, pathInfo, varFix)) {
+                            connection.send(message.createReply(varFix));
+                        } else {
+                            qWarning() << m_proxyDbusInterface << "Properties-Get error, get is not allowed." << prop;
+                            connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "get is not allowed"));
+                        }
+                    } else {
+                        connection.send(message.createReply(var));
+                    }
                 }
                 return true;
             } else if (message.member() == "Set") {
                 qInfo() << m_proxyDbusInterface << "Properties-Set:" << prop;
+                // 如果属性是subPath的属性，则不允许Set
+                auto iterFind = m_pathInfoMap.find(prop);
+                if (iterFind != m_pathInfoMap.end()) {
+                    qWarning() << m_proxyDbusInterface << "Properties-Set error: not allowed to set";
+                    connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "set is not allowed"));
+                    return true;
+                }
                 m_proxy->setProperty(prop.toStdString().c_str(), message.arguments().at(2));
                 connection.send(message.createReply());
                 return true;
@@ -139,14 +159,29 @@ public:
         connect(m_proxy, &DBusExtendedAbstractInterface::propertyChanged, this, [this](const QString &propName, const QVariant &value){
             // qInfo() << "propertyChanged:" << propName << value;
             if (m_filterProperiesEnable && !m_filterProperies.contains(propName)) {
-                qInfo() << m_proxyDbusInterface << "propertyChanged-filter:" << propName << "is not allowed.";
+                qWarning() << m_proxyDbusInterface << "propertyChanged-filter:" << propName << "is not allowed.";
                 return;
             }
+
+            QVariant varFix(value);
+            auto iterFind = m_pathInfoMap.find(propName);
+            if (iterFind != m_pathInfoMap.end()) {
+                // 如果属性是subPath的属性，则需要转换
+                const DBusProxySubPathInfo &pathInfo = iterFind.value();
+                QVariant varTemp;
+                if (subPathVariantCast(varFix, pathInfo, varTemp)) {
+                    varFix = varTemp;
+                } else {
+                    qWarning() << m_proxyDbusInterface << "propertyChanged, error to cast prop:" << propName;
+                    return;
+                }
+            }
+
             QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, "org.freedesktop.DBus.Properties", "PropertiesChanged");
             QList<QVariant> arguments;
             arguments.push_back(m_proxyDbusInterface);
             QVariantMap changedProps;
-            changedProps.insert(propName, value);
+            changedProps.insert(propName, varFix);
             arguments.push_back(changedProps);
             arguments.push_back(QStringList());
             msg.setArguments(arguments);
@@ -154,34 +189,32 @@ public:
         });
     }
     template<typename Functor>
-    void SubPathInit(QString propName, Functor func) {
-        QVariant var = m_proxy->property(propName.toStdString().c_str());
-        subPathHandler(var, m_pathMap, func);
-        connect(m_proxy, &DBusExtendedAbstractInterface::propertyChanged, this, [=](const QString &name, const QVariant &value){
-            if (name != propName) {
-                return;
-            }
-            qInfo() << m_proxyDbusInterface << "propertyChanged-subPathChanged:" << name << value;
-            subPathHandler(value, m_pathMap, func);
-        });
+    void SubPathInit(QString propName, DBusProxySubPathInfo subInfo, Functor func) {
+        SubPathInit(propName, subInfo, m_pathMap, func);
     }
     // 额外提供这个SubPathInit可以指定pathMap，以此处理一个proxy包含多种子PATH的情况
     template<typename Functor>
-    void SubPathInit(QString propName, QMap<QString, DBusProxyBase *> &pathMap, Functor func) {
+    void SubPathInit(QString propName, DBusProxySubPathInfo subInfo, QMap<QString, DBusProxyBase *> &pathMap, Functor func) {
+        if (propName.isEmpty() || subInfo.proxyPathPrefix.isEmpty() || subInfo.proxyInterface.isEmpty() || subInfo.interface.isEmpty()) {
+            return;
+        }
+        m_pathInfoMap.insert(propName, subInfo);
         QVariant var = m_proxy->property(propName.toStdString().c_str());
-        subPathHandler(var, pathMap, func);
+        if (var.isValid()) {
+            subPathHandler(propName, var, pathMap, func);
+        }
         connect(m_proxy, &DBusExtendedAbstractInterface::propertyChanged, this, [&](const QString &name, const QVariant &value){
-            if (name != propName) {
+            if (name != propName || !value.isValid()) {
                 return;
             }
             qInfo() << m_proxyDbusInterface << "propertyChanged-subPathChanged:" << name << value;
-            subPathHandler(value, pathMap, func);
+            subPathHandler(name, value, pathMap, func);
         });
     }
 
     // 创建和删除子PATH
     template<typename Functor>
-    void subPathHandler(const QVariant &pathsVar, QMap<QString, DBusProxyBase *> &pathMap, Functor func) {
+    void subPathHandler(const QString &propName, const QVariant &pathsVar, QMap<QString, DBusProxyBase *> &pathMap, Functor func) {
         QString varType(pathsVar.typeName());
         QStringList paths;
         if (varType == "QList<QDBusObjectPath>") {
@@ -192,10 +225,9 @@ public:
         } else if (varType == "QStringList") {
             paths = pathsVar.value<QStringList>();
         } else {
-            qWarning() << m_proxyDbusInterface << "sub path handler, error variant type:" << pathsVar.typeName();
+            qWarning() << m_proxyDbusName << "sub path handler, error variant type:" << pathsVar.typeName();
             return;
         }
-        qInfo() << m_proxyDbusInterface << "sub path handler, paths:" << paths;
         QVector<QString> newPaths;
         QVector<QString> deletePaths;
         for (auto path : paths) {
@@ -216,22 +248,57 @@ public:
                 deletePaths.push_back(existPath.first);
             }
         }
+
+        qInfo() << m_proxyDbusName << "prop-paths:" << paths;
+        qInfo() << m_proxyDbusName << "new-paths:" << newPaths;
+        qInfo() << m_proxyDbusName << "delete-paths:" << deletePaths;
+
+        const DBusProxySubPathInfo &pathInfo = m_pathInfoMap.find(propName).value();
         for (auto addPath : newPaths) {
-            qInfo() << m_proxyDbusInterface << "add sub path:" << addPath;
-            pathMap.insert(addPath, func(addPath));
+            QString suffix = addPath.right(addPath.size() - (addPath.lastIndexOf("/") + 1));
+            QString proxyPath = pathInfo.proxyPathPrefix + suffix;
+            qInfo() << m_proxyDbusName << "create sub-path proxy:" << proxyPath << "to" << addPath;
+            pathMap.insert(addPath, func(addPath, pathInfo.interface, proxyPath, pathInfo.proxyInterface));
         }
         for (auto deletePath : deletePaths) {
             auto iter = pathMap.find(deletePath);
             if (iter != pathMap.end()) {
                 DBusProxyBase *proxy = iter.value();
                 if (proxy) {
-                    qInfo() << m_proxyDbusInterface << "delete sub path:" << deletePath;
-                    proxy->ServiceStop();
+                    qInfo() << m_proxyDbusName << "delete sub path:" << deletePath;
                     delete proxy;
                     pathMap.erase(iter);
                 }
             }
         }
+    }
+
+    bool subPathVariantCast(QVariant var, const DBusProxySubPathInfo &pathInfo, QVariant &varFix) 
+    {
+        QString varType(var.typeName());
+        if (varType == "QList<QDBusObjectPath>") {
+            QList<QDBusObjectPath> pathsFix;
+            QList<QDBusObjectPath> pathsOrg = qvariant_cast<QList<QDBusObjectPath>>(var);
+            for (auto pathOrg : pathsOrg) {
+                QString pathOrgStr = pathOrg.path();
+                QString suffix = pathOrgStr.right(pathOrgStr.size() - (pathOrgStr.lastIndexOf("/") + 1));
+                QString proxyPath = pathInfo.proxyPathPrefix + suffix;
+                pathsFix.append(QDBusObjectPath(proxyPath));
+            }
+            varFix.setValue(pathsFix);
+            return true;
+        } else if (varType == "QStringList") {
+            QStringList pathsFix;
+            QStringList pathsOrg = var.value<QStringList>();
+            for (auto pathOrg : pathsOrg) {
+                QString suffix = pathOrg.right(pathOrg.size() - (pathOrg.lastIndexOf("/") + 1));
+                QString proxyPath = pathInfo.proxyPathPrefix + suffix;
+                pathsFix.append(proxyPath);
+            }
+            varFix.setValue(pathsFix);
+            return true;
+        }
+        return false;
     }
 
     QString getSenderProcess(QString dbusService)
@@ -251,6 +318,7 @@ public slots:
     void threadRun()
     {
         m_proxy = initConnect();
+        signalMonitor();
         if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerService(m_proxyDbusName)) {
             qWarning() << m_proxyDbusInterface << "failed to register service:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
             return;
@@ -259,7 +327,13 @@ public slots:
             qWarning() << m_proxyDbusInterface << "failed to register object:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
             return;
         }
-        signalMonitor();
+    }
+    void serviceStop()
+    {
+        QDBusConnection::connectToBus(QDBusConnection::SessionBus, m_proxyDbusName).unregisterObject(m_proxyDbusPath);
+        if (m_proxy) {
+            delete m_proxy;
+        }
     }
 protected:
     QString m_dbusName;
@@ -276,7 +350,9 @@ private:
     bool m_filterMethodsEnable;
     QStringList m_filterMethods;
     QThread *m_thread;
+    // subpath
     QMap<QString, DBusProxyBase *> m_pathMap;
+    QMap<QString, DBusProxySubPathInfo> m_pathInfoMap;
 };
 
 

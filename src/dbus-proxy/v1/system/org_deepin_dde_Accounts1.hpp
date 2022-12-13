@@ -35,18 +35,15 @@ public:
             subPathProxyInterface = "org.deepin.daemon.Accounts1.User";
             subPathProxyPathPrefix = "/org/deepin/daemon/Accounts1/";
         }
-        SubPathInit("UserList", [=](QString path){
-            QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
-            QString proxyPath = subPathProxyPathPrefix + suffix;
-            qInfo() << "create accounts.User path proxy:" << proxyPath << "to" << path;
-            return new SystemAccounts1UserProxy(m_dbusName, 
-                path, 
-                subPathInterface, 
-                m_proxyDbusName, 
-                proxyPath, 
+        SubPathInit("UserList", DBusProxySubPathInfo{
+                subPathProxyPathPrefix,
                 subPathProxyInterface,
-                m_dbusType);
-            });
+                subPathInterface},
+            [=](QString path, QString interface, QString proxyPath, QString proxyInterface){
+                return new SystemAccounts1UserProxy(m_dbusName, path, interface,
+                    m_proxyDbusName, proxyPath, proxyInterface, m_dbusType);
+            }
+        );
     }
 private:
     org::deepin::dde::Accounts1 *m_dbusProxy;
