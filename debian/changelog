@@ -1,3 +1,15 @@
+dde-api-proxy (1.0.1.1) unstable; urgency=medium
+
+  [ TagBuilder ]
+  * feat: 实现DDE接口的代理服务2(Task: 222561)(Influence: DBUS接口兼容性)
+  * feat: 支持多种类型的子PATH属性(Task: 222561)(Influence: 支持多种类型的子PATH属性)
+  * feat: 实现DDE接口的代理服务3(Task: 225417)(Influence: DBUS接口兼容性)
+  * feat: 新增控制中心GrandSearch接口的代理(Task: 225417)(Influence: DBUS代理接口)
+  * feat: 非统计的DBUS代理接口补充(Task: 227237)(Influence: DBUS代理接口)
+  * feat: 服务接口代理的初版简单统计(Task: 227483)(Influence: 代理调用统计)
+
+ -- zhaoyingzhen <zhaoyingzhen@uniontech.com>  Tue, 13 Dec 2022 18:45:30 +0800
+
 dde-api-proxy (1.0.0) unstable; urgency=medium
 
   * 1.0.0 init
