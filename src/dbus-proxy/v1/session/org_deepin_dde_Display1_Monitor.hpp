@@ -4,9 +4,8 @@
 #include "session_org_deepin_dde_Display1_Monitor.h"
 
 class SessionDisplay1MonitorProxy : public DBusProxyBase {
-    
 public:
-    SessionDisplay1MonitorProxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SessionDisplay1MonitorProxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
@@ -15,7 +14,7 @@ public:
         InitFilterMethods(QStringList({"SetPosition", "SetReflect", "SetRotation"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect() 
+    virtual DBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::display1::Monitor(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;

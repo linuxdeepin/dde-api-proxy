@@ -4,9 +4,8 @@
 #include "session_org_deepin_dde_Launcher1.h"
 
 class SessionLauncher1Proxy : public DBusProxyBase {
-    
 public:
-    SessionLauncher1Proxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SessionLauncher1Proxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
@@ -15,7 +14,7 @@ public:
         InitFilterMethods(QStringList({"Show"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect() 
+    virtual DBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::Launcher1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;

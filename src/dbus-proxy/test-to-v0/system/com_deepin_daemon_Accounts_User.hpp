@@ -4,11 +4,11 @@
 #include "com_deepin_daemon_Accounts_User.h"
 
 class SystemAccountsUserProxy : public DBusProxyBase {
-    
+   
 public:
-    SystemAccountsUserProxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SystemAccountsUserProxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
-        QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
+        QDBusConnection::BusType dbusType, QObject *parent = nullptr)
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
         InitFilterProperies(QStringList({"PasswordLastChange", "AccountType", "IconFile", "UserName", "UUID"}));

@@ -2,7 +2,7 @@ set(PRO_NAME "dde-api-dbus-proxy-test-to-v0")
 
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/dbus-proxy/dbusinterface/v0/session/)
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/dbus-proxy/dbusinterface/v0/system/)
-list(APPEND QT_DBUS_PROXY_INTERFACE_INCLUDE 
+list(APPEND QT_DBUS_PROXY_INTERFACE_INCLUDE
     ${PROJECT_BINARY_DIR}/dbus-proxy/dbusinterface/v0/session/
     ${PROJECT_BINARY_DIR}/dbus-proxy/dbusinterface/v0/system/
 )

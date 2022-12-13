@@ -23,23 +23,23 @@
     <arg direction="in" type="i"/>
     <arg direction="out" type="u"/>
   </method>
-  <method name="GetAllRecords"> 
+  <method name="GetAllRecords">
     <arg direction="out" type="s"/>
-  </method> 
-  <method name="GetRecordById"> 
+  </method>
+  <method name="GetRecordById">
     <arg direction="in" type="s"/>
     <arg direction="out" type="s"/>
-  </method> 
-  <method name="GetRecordsFromId"> 
+  </method>
+  <method name="GetRecordsFromId">
     <arg direction="in" type="i"/>
     <arg direction="in" type="s"/>
     <arg direction="out" type="s"/>
-  </method> 
-  <method name="RemoveRecord"> 
+  </method>
+  <method name="RemoveRecord">
     <arg direction="in" type="s"/>
-  </method> 
+  </method>
   <method name="ClearRecords"/>
-  <method name="getAppSetting"> 
+  <method name="getAppSetting">
     <arg direction="in" type="s"/>
     <arg direction="out" type="s"/>
   </method>
@@ -81,34 +81,34 @@
     <arg type="u"/>
     <arg type="s"/>
   </signal>
-  <signal name="RecordAdded"> 
+  <signal name="RecordAdded">
     <arg type="s"/>
   </signal>
-  <signal name="AppInfoChanged"> 
+  <signal name="AppInfoChanged">
     <arg type="s"/>
     <arg type="u"/>
     <arg type="v"/>
   </signal>
-  <signal name="SystemInfoChanged"> 
+  <signal name="SystemInfoChanged">
     <arg type="u"/>
     <arg type="v"/>
   </signal>
-  <signal name="AppAddedSignal"> 
+  <signal name="AppAddedSignal">
     <arg type="s"/>
   </signal>
-  <signal name="AppRemovedSignal"> 
+  <signal name="AppRemovedSignal">
     <arg type="s"/>
   </signal>
-  <signal name="appRemoved"> 
+  <signal name="appRemoved">
     <arg type="s"/>
   </signal>
-  <signal name="appAdded"> 
+  <signal name="appAdded">
     <arg type="s"/>
   </signal>
-  <signal name="appSettingChanged"> 
+  <signal name="appSettingChanged">
     <arg type="s"/>
   </signal>
-  <signal name="systemSettingChanged"> 
+  <signal name="systemSettingChanged">
     <arg type="s"/>
   </signal>
   <property name="allSetting" type="s" access="readwrite"/>

@@ -4,9 +4,8 @@
 #include "system_org_deepin_dde_Accounts1_User.h"
 
 class SystemAccounts1UserProxy : public DBusProxyBase {
-    
 public:
-    SystemAccounts1UserProxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SystemAccounts1UserProxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)

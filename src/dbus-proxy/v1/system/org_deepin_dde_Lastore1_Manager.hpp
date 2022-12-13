@@ -5,9 +5,8 @@
 #include "system_org_deepin_dde_Lastore1_Updater.h"
 
 class SystemLastore1ManagerProxy : public DBusProxyBase {
-    
 public:
-    SystemLastore1ManagerProxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SystemLastore1ManagerProxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
@@ -16,7 +15,7 @@ public:
         InitFilterMethods(QStringList({"GetArchivesInfo", "UpdateSource", "CleanJob", "PackageInstallable", "InstallPackage", "PackageExists"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect() 
+    virtual DBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::lastore1::Manager(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         m_dbusUpdaterProxy = new org::deepin::dde::lastore1::Updater(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);

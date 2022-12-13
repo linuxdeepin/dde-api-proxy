@@ -5,9 +5,8 @@
 #include "session_org_deepin_dde_ControlCenter1_GrandSearch.h"
 
 class SessionControlCenter1Proxy : public DBusProxyBase {
-    
 public:
-    SessionControlCenter1Proxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SessionControlCenter1Proxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
@@ -57,7 +56,7 @@ public:
         return false;
     }
 
-    virtual DBusExtendedAbstractInterface *initConnect() 
+    virtual DBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::ControlCenter1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         m_dbusGrandSearchProxy = new org::deepin::dde::controlcenter1::GrandSearch(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);

@@ -6,9 +6,8 @@
 #include "system/org_deepin_dde_Accounts1_User.hpp"
 
 class SystemAccounts1Proxy : public DBusProxyBase {
-    
 public:
-    SystemAccounts1Proxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SystemAccounts1Proxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
@@ -17,7 +16,7 @@ public:
         InitFilterMethods(QStringList({"EnablePasswdChangedHandler", "FindUserByName"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect() 
+    virtual DBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::Accounts1(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         return m_dbusProxy;

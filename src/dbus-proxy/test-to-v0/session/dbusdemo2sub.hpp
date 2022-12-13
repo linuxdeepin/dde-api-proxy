@@ -4,11 +4,10 @@
 #include "com_deepin_dbusdemo.h"
 
 class DBusProxy2Sub : public DBusProxyBase {
-    
 public:
-    DBusProxy2Sub(QString dbusName, QString dbusPath, QString dbusInterface, 
+    DBusProxy2Sub(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
-        QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
+        QDBusConnection::BusType dbusType, QObject *parent = nullptr)
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
         registerAreaListMetaType();
@@ -23,7 +22,6 @@ public:
     }
     virtual void signalMonitorCustom()
     {
-        
         connect(m_dbusProxy, &com::deepin::dbusdemo::Tick2, this, [this](QString ret){
             qInfo() << "Tick2:" << ret;
             QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, "Tick2");
@@ -31,7 +29,6 @@ public:
             arguments.push_back(ret);
             msg.setArguments(arguments);
             QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
-            
         });
         connect(m_dbusProxy, &com::deepin::dbusdemo::AreaTestSig, this, [this](const QString &id, AreaList areaList){
             qInfo() << "AreaTestSig:" << id;
@@ -43,7 +40,6 @@ public:
             arguments.push_back(areas);
             msg.setArguments(arguments);
             QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
-
         });
     }
 private:

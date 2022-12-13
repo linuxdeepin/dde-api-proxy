@@ -1,5 +1,5 @@
-<interface name="com.deepin.daemon.LangSelector"> 
-  <method name="AddLocale"> 
+<interface name="com.deepin.daemon.LangSelector">
+  <method name="AddLocale">
     <arg type="s" direction="in"></arg>
   </method>
   <method name="DeleteLocale">

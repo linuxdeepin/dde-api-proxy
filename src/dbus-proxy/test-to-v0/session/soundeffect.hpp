@@ -5,7 +5,6 @@
 #include "com_deepin_daemon_SoundEffect.h"
 
 class SoundEffect : public QDBusVirtualObject {
-    
 public:
 	SoundEffect(QObject *parent = nullptr) :QDBusVirtualObject(parent)
     {
@@ -20,7 +19,7 @@ public:
         qInfo() << "asdsad";
         //     inline QDBusPendingReply<QString> GetSoundFile(const QString &name)
         if (message.member() == "GetSoundFile") {
-             qInfo() << "GetSoundFile:" << message.arguments().at(0).toString();
+            qInfo() << "GetSoundFile:" << message.arguments().at(0).toString();
             QDBusReply<QString> reply = m_soundEffect->GetSoundFile(message.arguments().at(0).toString());
             qInfo() << "reply:" << reply.value();
             connection.send(message.createReply(reply.value()));

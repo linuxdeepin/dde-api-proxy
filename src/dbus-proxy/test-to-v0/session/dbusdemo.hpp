@@ -6,7 +6,6 @@
 #include "com_deepin_dbusdemo.h"
 
 class DBusProxy : public QDBusVirtualObject {
-    
 public:
     DBusProxy(QObject *parent = nullptr) :QDBusVirtualObject(parent)
     {
@@ -72,7 +71,6 @@ public:
             arguments.push_back(ret);
             msg.setArguments(arguments);
             QDBusConnection::connectToBus(QDBusConnection::SessionBus, "com.test.dbusdemo").send(msg);
-            
         });
         connect(m_dbusProxy, &com::deepin::dbusdemo::AreaTestSig, this, [](const QString &id, AreaList areaList){
             qInfo() << "AreaTestSig:" << id;

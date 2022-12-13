@@ -19,16 +19,16 @@ int main(int argc, char *argv[])
     parser.addOption(systemOption);
     parser.addOption(sessionption);
     parser.process(a);
-    
+
     if(parser.isSet(systemOption)) {
         qInfo() << "dbus system proxy.";
-        new SystemAccountsProxy("com.deepin.daemon.Accounts", "/com/deepin/daemon/Accounts", "com.deepin.daemon.Accounts", 
+        new SystemAccountsProxy("com.deepin.daemon.Accounts", "/com/deepin/daemon/Accounts", "com.deepin.daemon.Accounts",
             "com.test.daemon.Accounts", "/com/test/daemon/Accounts", "com.test.daemon.Accounts", QDBusConnection::SystemBus);
     } else if (parser.isSet(sessionption)) {
         qInfo() << "dbus session proxy.";
 
         // new SoundEffect();
-        // new DBusProxy2("com.deepin.dbusdemo", "/com/deepin/dbusdemo", "com.deepin.dbusdemo", 
+        // new DBusProxy2("com.deepin.dbusdemo", "/com/deepin/dbusdemo", "com.deepin.dbusdemo",
         //     "com.test.dbusdemo", "/com/test/dbusdemo", "com.test.dbusdemo");
     } else {
         qWarning() << "param error.";

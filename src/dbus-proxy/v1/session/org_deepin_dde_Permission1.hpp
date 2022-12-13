@@ -4,9 +4,8 @@
 #include "session_org_deepin_dde_Permission1.h"
 
 class SessionPermission1Proxy : public DBusProxyBase {
-    
 public:
-    SessionPermission1Proxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SessionPermission1Proxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
@@ -15,7 +14,7 @@ public:
         // InitFilterMethods(QStringList({}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect() 
+    virtual DBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::Permission1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;

@@ -20,7 +20,7 @@
 
 class DBusProxyBase : public QDBusVirtualObject {
 public:
-    DBusProxyBase(QString dbusName, QString dbusPath, QString dbusInterface, 
+    DBusProxyBase(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) : QDBusVirtualObject(parent)
         , m_dbusName(dbusName)
@@ -46,7 +46,7 @@ public:
     // handleMessageCustom:可选，无定义方法处理可不实现
     virtual	bool handleMessageCustom(const QDBusMessage &message, const QDBusConnection &connection) {return false;}
     // signalMonitorCustom:可选，无定义信号可不实现
-    // TODO:封装自定义信号的统一处理，可实现所有转发自动处理 
+    // TODO:封装自定义信号的统一处理，可实现所有转发自动处理
     virtual void signalMonitorCustom() {}
     virtual DBusExtendedAbstractInterface * initConnect() = 0;
 
@@ -72,6 +72,14 @@ public:
 
     virtual bool handleMessage(const QDBusMessage &message, const QDBusConnection &connection)
     {
+        qInfo() << "[statistics]";
+        qInfo() << " - proxy sender:" << getSenderProcess(message.service());
+        qInfo() << " - proxy service:" << m_proxyDbusName;
+        qInfo() << " - proxy path:" << m_proxyDbusPath;
+        qInfo() << " - proxy interface:" << m_proxyDbusInterface;
+        qInfo() << " - proxy method:" << message.member();
+        qInfo() << " - proxy arguments:" << message.arguments();
+
         if (handleMessageCustom(message, connection)) {
             // 自定义处理成功则直接返回，否则执行通用处理
             return true;
@@ -124,7 +132,7 @@ public:
     {
         return "";
     }
-    
+
     void signalMonitor()
     {
         signalMonitorCustom();
@@ -224,6 +232,19 @@ public:
                 }
             }
         }
+    }
+
+    QString getSenderProcess(QString dbusService)
+    {
+        const unsigned int &pid = QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).interface()->servicePid(dbusService).value();
+        QFile procCmd("/proc/" + QString::number(pid) + "/cmdline");
+        QString cmd;
+        if(procCmd.open(QIODevice::ReadOnly))
+        {
+            QList<QByteArray> cmds = procCmd.readAll().split('\0');
+            cmd = QString(cmds.first());
+        }
+        return cmd;
     }
 
 public slots:

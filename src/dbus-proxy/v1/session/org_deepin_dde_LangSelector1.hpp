@@ -4,9 +4,8 @@
 #include "session_org_deepin_dde_LangSelector1.h"
 
 class SessionLangSelector1Proxy : public DBusProxyBase {
-    
 public:
-    SessionLangSelector1Proxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SessionLangSelector1Proxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
@@ -15,7 +14,7 @@ public:
         InitFilterMethods(QStringList({}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect() 
+    virtual DBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::LangSelector1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;

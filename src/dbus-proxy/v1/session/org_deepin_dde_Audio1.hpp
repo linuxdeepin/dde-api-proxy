@@ -7,18 +7,17 @@
 #include "session/org_deepin_dde_Audio1_Source.hpp"
 
 class SessionAudio1Proxy : public DBusProxyBase {
-    
 public:
-    SessionAudio1Proxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SessionAudio1Proxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
-        QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
+        QDBusConnection::BusType dbusType, QObject *parent = nullptr)
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
         InitFilterProperies(QStringList({"SinkInputs", "CardsWithoutUnavailable", "DefaultSource", "MaxUIVolume", "DefaultSink", "BluetoothAudioModeOpts"}));
         InitFilterMethods(QStringList({}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect() 
+    virtual DBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::Audio1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;
@@ -45,11 +44,11 @@ public:
             QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
             QString proxyPath = subPathProxyPathPrefix + suffix;
             qInfo() << "create audio.sink path proxy:" << proxyPath << "to" << path;
-            return new SessionAudio1SinkProxy(m_dbusName, 
-                path, 
-                subPathSinkInterface, 
-                m_proxyDbusName, 
-                proxyPath, 
+            return new SessionAudio1SinkProxy(m_dbusName,
+                path,
+                subPathSinkInterface,
+                m_proxyDbusName,
+                proxyPath,
                 subPathSinkProxyInterface,
                 m_dbusType);
         });
@@ -57,11 +56,11 @@ public:
             QString suffix = path.right(path.size() - (path.lastIndexOf("/") + 1));
             QString proxyPath = subPathProxyPathPrefix + suffix;
             qInfo() << "create audio.source path proxy:" << proxyPath << "to" << path;
-            return new SessionAudio1SourceProxy(m_dbusName, 
-                path, 
-                subPathSourceInterface, 
-                m_proxyDbusName, 
-                proxyPath, 
+            return new SessionAudio1SourceProxy(m_dbusName,
+                path,
+                subPathSourceInterface,
+                m_proxyDbusName,
+                proxyPath,
                 subPathSourceProxyInterface,
                 m_dbusType);
         });

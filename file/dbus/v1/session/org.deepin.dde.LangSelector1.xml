@@ -1,5 +1,5 @@
-<interface name="org.deepin.dde.LangSelector1"> 
-  <method name="AddLocale"> 
+<interface name="org.deepin.dde.LangSelector1">
+  <method name="AddLocale">
     <arg type="s" direction="in"></arg>
   </method>
   <method name="DeleteLocale">

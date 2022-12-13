@@ -4,9 +4,8 @@
 #include "system_org_deepin_dde_LockService1.h"
 
 class SystemLockService1Proxy : public DBusProxyBase {
-    
 public:
-    SystemLockService1Proxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SystemLockService1Proxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
@@ -15,7 +14,7 @@ public:
         InitFilterMethods(QStringList({"CurrentUser"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect() 
+    virtual DBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::LockService1(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         return m_dbusProxy;

@@ -4,9 +4,8 @@
 #include "system_org_deepin_dde_Timedate1.h"
 
 class SystemTimedate1Proxy : public DBusProxyBase {
-    
 public:
-    SystemTimedate1Proxy(QString dbusName, QString dbusPath, QString dbusInterface, 
+    SystemTimedate1Proxy(QString dbusName, QString dbusPath, QString dbusInterface,
         QString proxyDbusName, QString proxyDbusPath, QString proxyDbusInterface,
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
@@ -15,7 +14,7 @@ public:
         InitFilterMethods(QStringList({"SetNTPServer"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect() 
+    virtual DBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::Timedate1(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         return m_dbusProxy;

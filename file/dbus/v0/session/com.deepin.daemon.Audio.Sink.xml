@@ -19,11 +19,11 @@
       <arg type="d" direction="in"/>
       <arg type="b" direction="in"/>
     </method>
-    <property name="Name" type="s" access="read"/>\n 
+    <property name="Name" type="s" access="read"/>\n
     <property name="Description" type="s" access="read"/>
     <property name="BaseVolume" type="d" access="read"/>
-    <property name="Mute" type="b" access="read"/> 
-    <property name="Volume" type="d" access="read"/> 
+    <property name="Mute" type="b" access="read"/>
+    <property name="Volume" type="d" access="read"/>
     <property name="Balance" type="d" access="read"/>
     <property name="SupportBalance" type="b" access="read"/>
     <property name="Fade" type="d" access="read"/>
