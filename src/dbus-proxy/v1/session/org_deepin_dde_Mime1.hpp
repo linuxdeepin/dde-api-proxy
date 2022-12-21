@@ -14,7 +14,7 @@ public:
         InitFilterMethods(QStringList({"SetDefaultApp", "GetDefaultApp"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect()
+    virtual DDBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::Mime1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;

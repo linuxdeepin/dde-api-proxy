@@ -14,7 +14,7 @@ public:
         InitFilterMethods(QStringList({"GetAdapters", "SetAdapterPowered", "GetDevices"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect()
+    virtual DDBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::Bluetooth1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;

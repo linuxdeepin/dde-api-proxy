@@ -14,7 +14,7 @@ public:
         InitFilterMethods(QStringList({"SetBackgroundSourceFile"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect()
+    virtual DDBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::grub2::Theme(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         return m_dbusProxy;

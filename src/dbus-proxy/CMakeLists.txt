@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core DBus REQUIRED)
 find_package(PkgConfig REQUIRED)
+find_package(DtkCore REQUIRED)
 
 macro(qt5_add_dbus_proxy_interface_fix srcs xml class file)
   execute_process(COMMAND qdbusxml2cpp-fix -c ${class} -p ${PROJECT_BINARY_DIR}/dbus-proxy/dbusinterface/${file} ${DBUS_FILE_PATH}/${xml})

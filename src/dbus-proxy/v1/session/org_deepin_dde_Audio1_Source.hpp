@@ -14,7 +14,7 @@ public:
         InitFilterMethods(QStringList({"SetMute", "SetVolum"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect()
+    virtual DDBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::audio1::Source(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;

@@ -20,12 +20,12 @@ add_executable(${PRO_NAME}
     main.cpp
     ${PROXY_INTERFACE_SOURCES}
     ${PROXY_DBUS_TYPES}
-    ${PROXY_DBUSEXTENDED_SOURCE}
 )
 
 target_link_libraries(${PRO_NAME}
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::DBus
+    ${DtkCore_LIBRARIES}
  )
 
 target_include_directories(${PRO_NAME} PUBLIC

@@ -15,7 +15,7 @@ public:
         InitFilterMethods(QStringList({"GetArchivesInfo", "UpdateSource", "CleanJob", "PackageInstallable", "InstallPackage", "PackageExists"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect()
+    virtual DDBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::lastore1::Manager(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         m_dbusUpdaterProxy = new org::deepin::dde::lastore1::Updater(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
@@ -31,7 +31,7 @@ public:
             updaterProxyInterface = "org.deepin.lastore1.Updater";
         }
         QStringList updaterFilterProps{"UpdatablePackages", "UpdatableApps"};
-        connect(m_dbusUpdaterProxy, &DBusExtendedAbstractInterface::propertyChanged, this, [=](const QString &propName, const QVariant &value){
+        connect(m_dbusUpdaterProxy, &DDBusExtendedAbstractInterface::propertyChanged, this, [=](const QString &propName, const QVariant &value){
             if (!updaterFilterProps.contains(propName)) {
                 qInfo() << updaterProxyInterface << "propertyChanged-filter:" << propName << "is not allowed.";
                 return;

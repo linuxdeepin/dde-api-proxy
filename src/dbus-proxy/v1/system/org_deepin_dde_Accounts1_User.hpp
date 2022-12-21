@@ -14,7 +14,7 @@ public:
         InitFilterMethods(QStringList({"EnableNoPasswdLogin", "SetAutomaticLogin", "SetLocked"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface * initConnect() {
+    virtual DDBusExtendedAbstractInterface * initConnect() {
         m_dbusProxy = new org::deepin::dde::accounts1::User(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         return m_dbusProxy;
     }

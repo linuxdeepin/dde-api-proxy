@@ -56,7 +56,7 @@ public:
         return false;
     }
 
-    virtual DBusExtendedAbstractInterface *initConnect()
+    virtual DDBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::ControlCenter1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         m_dbusGrandSearchProxy = new org::deepin::dde::controlcenter1::GrandSearch(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);

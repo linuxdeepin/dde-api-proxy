@@ -17,7 +17,7 @@ public:
         InitFilterMethods(QStringList({"EnablePasswdChangedHandler", "FindUserByName"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect()
+    virtual DDBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new com::deepin::daemon::Accounts(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         return m_dbusProxy;

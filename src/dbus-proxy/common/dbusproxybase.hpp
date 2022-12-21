@@ -1,8 +1,10 @@
 #pragma once
 
+#include "dtkcore_global.h"
+
 #include <QDBusVirtualObject>
 #include <QDBusAbstractInterface>
-#include <DBusExtendedAbstractInterface>
+#include <DDBusExtendedAbstractInterface>
 #include <QThread>
 #include <QDBusVirtualObject>
 
@@ -15,6 +17,8 @@
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
 #include <QtDBus/QtDBus>
+
+DCORE_USE_NAMESPACE
 
 typedef struct DBusProxySubPathInfoDef {
     QString proxyPathPrefix;
@@ -51,7 +55,7 @@ public:
     // signalMonitorCustom:可选，无定义信号可不实现
     // TODO:封装自定义信号的统一处理，可实现所有转发自动处理
     virtual void signalMonitorCustom() {}
-    virtual DBusExtendedAbstractInterface * initConnect() = 0;
+    virtual DDBusExtendedAbstractInterface * initConnect() = 0;
 
     void ServiceStart()
     {
@@ -156,7 +160,7 @@ public:
     void signalMonitor()
     {
         signalMonitorCustom();
-        connect(m_proxy, &DBusExtendedAbstractInterface::propertyChanged, this, [this](const QString &propName, const QVariant &value){
+        connect(m_proxy, &DDBusExtendedAbstractInterface::propertyChanged, this, [this](const QString &propName, const QVariant &value){
             // qInfo() << "propertyChanged:" << propName << value;
             if (m_filterProperiesEnable && !m_filterProperies.contains(propName)) {
                 qWarning() << m_proxyDbusInterface << "propertyChanged-filter:" << propName << "is not allowed.";
@@ -203,7 +207,7 @@ public:
         if (var.isValid()) {
             subPathHandler(propName, var, pathMap, func);
         }
-        connect(m_proxy, &DBusExtendedAbstractInterface::propertyChanged, this, [&](const QString &name, const QVariant &value){
+        connect(m_proxy, &DDBusExtendedAbstractInterface::propertyChanged, this, [&](const QString &name, const QVariant &value){
             if (name != propName || !value.isValid()) {
                 return;
             }
@@ -344,7 +348,7 @@ protected:
     QString m_proxyDbusInterface;
     QDBusConnection::BusType m_dbusType;
 private:
-    DBusExtendedAbstractInterface *m_proxy;
+    DDBusExtendedAbstractInterface *m_proxy;
     bool m_filterProperiesEnable;
     QStringList m_filterProperies;
     bool m_filterMethodsEnable;

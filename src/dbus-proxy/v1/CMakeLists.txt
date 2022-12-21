@@ -68,11 +68,11 @@ add_executable(${PRO_SYSTEM_NAME}
     system/main.cpp
     ${SYSTEM_PROXY_INTERFACE_SOURCES}
     ${PROXY_DBUS_TYPES}
-    ${PROXY_DBUSEXTENDED_SOURCE}
 )
 target_link_libraries(${PRO_SYSTEM_NAME}
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::DBus
+    ${DtkCore_LIBRARIES}
  )
 target_include_directories(${PRO_SYSTEM_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -81,6 +81,7 @@ target_include_directories(${PRO_SYSTEM_NAME} PUBLIC
     ${DBUS_PROXY_SOURCE_PATH}/common/
     ${QT_DBUS_PROXY_INTERFACE_INCLUDE}
     ${DBUS_FILE_PATH}
+    ${DtkCore_INCLUDE_DIRS}
 )
 install(TARGETS ${PRO_SYSTEM_NAME} DESTINATION lib/dde-api-proxy/dbus-proxy/)
 
@@ -88,11 +89,11 @@ add_executable(${PRO_SESSION_NAME}
     session/main.cpp
     ${SESSION_PROXY_INTERFACE_SOURCES}
     ${PROXY_DBUS_TYPES}
-    ${PROXY_DBUSEXTENDED_SOURCE}
 )
 target_link_libraries(${PRO_SESSION_NAME}
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::DBus
+    ${DtkCore_LIBRARIES}
  )
 target_include_directories(${PRO_SESSION_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

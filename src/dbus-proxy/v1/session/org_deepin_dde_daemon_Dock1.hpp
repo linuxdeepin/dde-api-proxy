@@ -16,7 +16,7 @@ public:
         InitFilterMethods(QStringList({"RequestDock", "RequestUndock", "ActivateWindow"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect()
+    virtual DDBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::daemon::Dock1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;

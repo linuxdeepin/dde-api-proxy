@@ -15,7 +15,7 @@ public:
         InitFilterMethods(QStringList({"EnableNoPasswdLogin"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface * initConnect() {
+    virtual DDBusExtendedAbstractInterface * initConnect() {
         m_dbusProxy = new com::deepin::daemon::accounts::User(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         return m_dbusProxy;
     }

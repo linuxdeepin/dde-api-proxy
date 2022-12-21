@@ -14,7 +14,7 @@ public:
         InitFilterMethods(QStringList({"GetActiveConnectionInfo", "IsDevicesEnabled", "EnableDevice", "RequestIPConflictCheck", "GetActiveConnectionInfo", "GetSupportedConnectionTypes", "GetProxyMethod"}));
         ServiceStart();
     }
-    virtual DBusExtendedAbstractInterface *initConnect()
+    virtual DDBusExtendedAbstractInterface *initConnect()
     {
         m_dbusProxy = new org::deepin::dde::Network1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;
