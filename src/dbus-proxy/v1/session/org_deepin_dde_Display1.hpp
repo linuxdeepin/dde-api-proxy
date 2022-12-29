@@ -12,8 +12,8 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr)
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"Brightnes", "Monitors", "Primary", "ScreenWidth", "ScreenHeight", "PrimaryRect"}));
-        InitFilterMethods(QStringList({"SetBrightness"}));
+        // InitFilterProperies(QStringList({"Brightnes", "Monitors", "Primary", "ScreenWidth", "ScreenHeight", "PrimaryRect"}));
+        // InitFilterMethods(QStringList({"SetBrightness"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

@@ -11,8 +11,8 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({}));
-        InitFilterMethods(QStringList({"Show"})); // 另外代理了"ShowModule", "ShowPage"，在handleMessageCustom处理
+        // InitFilterProperies(QStringList({}));
+        // InitFilterMethods(QStringList({"Show"})); // 另外代理了"ShowModule", "ShowPage"，在handleMessageCustom处理
         ServiceStart();
     }
     virtual	bool handleMessageCustom(const QDBusMessage &message, const QDBusConnection &connection)
@@ -43,11 +43,11 @@ public:
         // 目前的Proxy封装，对于同PATH下不同Interface没有统一处理，所以在这里处理com.deepin.dde.ControlCenter.GrandSearch代理
         if (message.interface() == "com.deepin.dde.ControlCenter.GrandSearch") {
             QStringList updaterFilterMethods{"Action", "Search", "Stop"};
-            if (!updaterFilterMethods.contains(message.member())) {
-                qInfo() << "com.deepin.dde.ControlCenter.GrandSearch" << "method-filter:" << message.member() << "is not allowed.";
-                connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "is not allowed"));
-                return true;
-            }
+            // if (!updaterFilterMethods.contains(message.member())) {
+            //     qInfo() << "com.deepin.dde.ControlCenter.GrandSearch" << "method-filter:" << message.member() << "is not allowed.";
+            //     connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "is not allowed"));
+            //     return true;
+            // }
             QDBusPendingCall call = m_dbusGrandSearchProxy->asyncCallWithArgumentList(message.member(), message.arguments());
             call.waitForFinished();
             connection.send(message.createReply(call.reply().arguments()));

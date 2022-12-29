@@ -10,8 +10,8 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({}));
-        InitFilterMethods(QStringList({"List", "Delete", "Add", "GetCapsLockState", "SetCapsLockState"}));
+        // InitFilterProperies(QStringList({}));
+        // InitFilterMethods(QStringList({"List", "Delete", "Add", "GetCapsLockState", "SetCapsLockState"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

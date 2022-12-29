@@ -10,8 +10,8 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({}));
-        InitFilterMethods(QStringList({"SetBackgroundSourceFile"}));
+        // InitFilterProperies(QStringList({}));
+        // InitFilterMethods(QStringList({"SetBackgroundSourceFile"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

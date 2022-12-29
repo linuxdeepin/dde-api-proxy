@@ -10,8 +10,8 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"DesktopFile", "IsActive", "Name", "Icon", "CurrentWindow", "IsDocked", "WindowInfos", "Id"}));
-        InitFilterMethods(QStringList({}));
+        // InitFilterProperies(QStringList({"DesktopFile", "IsActive", "Name", "Icon", "CurrentWindow", "IsDocked", "WindowInfos", "Id"}));
+        // InitFilterMethods(QStringList({}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

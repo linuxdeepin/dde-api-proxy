@@ -10,8 +10,8 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"MemorySize"}));
-        InitFilterMethods(QStringList({}));
+        // InitFilterProperies(QStringList({"MemorySize"}));
+        // InitFilterMethods(QStringList({}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

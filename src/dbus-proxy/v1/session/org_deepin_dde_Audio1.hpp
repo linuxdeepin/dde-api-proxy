@@ -13,8 +13,8 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr)
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"SinkInputs", "CardsWithoutUnavailable", "DefaultSource", "MaxUIVolume", "DefaultSink", "BluetoothAudioModeOpts"}));
-        InitFilterMethods(QStringList({}));
+        // InitFilterProperies(QStringList({"SinkInputs", "CardsWithoutUnavailable", "DefaultSource", "MaxUIVolume", "DefaultSink", "BluetoothAudioModeOpts"}));
+        // InitFilterMethods(QStringList({}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
@@ -60,6 +60,8 @@ public:
                     m_proxyDbusName, proxyPath, proxyInterface, m_dbusType);
             }
         );
+        SubPathPropInit("DefaultSink", subPathProxyPathPrefix);
+        SubPathPropInit("DefaultSource", subPathProxyPathPrefix);
     }
 private:
     org::deepin::dde::Audio1 *m_dbusProxy;

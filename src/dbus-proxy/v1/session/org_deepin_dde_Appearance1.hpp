@@ -10,8 +10,8 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr)
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"FontSize", "GtkTheme", "WallpaperURIs"}));
-        InitFilterMethods(QStringList({"List", "SetMonitorBackground", "Set"}));
+        // InitFilterProperies(QStringList({"FontSize", "GtkTheme", "WallpaperURIs"}));
+        // InitFilterMethods(QStringList({"List", "SetMonitorBackground", "Set"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

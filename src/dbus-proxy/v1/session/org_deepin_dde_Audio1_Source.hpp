@@ -10,8 +10,8 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr)
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"Mute", "Volume"}));
-        InitFilterMethods(QStringList({"SetMute", "SetVolum"}));
+        // InitFilterProperies(QStringList({"Mute", "Volume"}));
+        // InitFilterMethods(QStringList({"SetMute", "SetVolum"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

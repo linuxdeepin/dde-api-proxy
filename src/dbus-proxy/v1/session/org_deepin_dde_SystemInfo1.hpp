@@ -12,7 +12,7 @@ public:
     {
         // 全部属性
         // InitFilterProperies(QStringList({}));
-        InitFilterMethods(QStringList({}));
+        // InitFilterMethods(QStringList({}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
