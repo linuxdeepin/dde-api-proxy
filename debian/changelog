@@ -1,3 +1,10 @@
+dde-api-proxy (1.0.3.1) unstable; urgency=medium
+
+  [ TagBuilder ]
+  * chore: 增加对DDE项目的运行依赖，解决大版本升级安装失败问题(Task: 235393)(Influence: 运行依赖)
+
+ -- lvpeilong <lvpeilong@uniontech.com>  Tue, 10 Jan 2023 09:36:47 +0800
+
 dde-api-proxy (1.0.2.1) unstable; urgency=medium
 
   * UNRELEASED
