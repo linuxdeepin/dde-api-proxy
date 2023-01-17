@@ -19,37 +19,7 @@ public:
         m_dbusProxy = new org::deepin::dde::XEventMonitor1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;
     }
-    virtual void signalMonitorCustom()
-    {
-        connect(m_dbusProxy, &org::deepin::dde::XEventMonitor1::ButtonPress, this, [this](int p1, int p2, int p3, QString p4){
-            QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, "ButtonPress");
-            QList<QVariant> arguments;
-            arguments << p1 << p2 << p3 << p4;
-            msg.setArguments(arguments);
-            QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
-        });
-        connect(m_dbusProxy, &org::deepin::dde::XEventMonitor1::ButtonRelease, this, [this](int p1, int p2, int p3, QString p4){
-            QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, "ButtonRelease");
-            QList<QVariant> arguments;
-            arguments << p1 << p2 << p3 << p4;
-            msg.setArguments(arguments);
-            QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
-        });
-        connect(m_dbusProxy, &org::deepin::dde::XEventMonitor1::KeyPress, this, [this](QString p1, int p2, int p3, QString p4){
-            QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, "KeyPress");
-            QList<QVariant> arguments;
-            arguments << p1 << p2 << p3 << p4;
-            msg.setArguments(arguments);
-            QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
-        });
-        connect(m_dbusProxy, &org::deepin::dde::XEventMonitor1::KeyRelease, this, [this](QString p1, int p2, int p3, QString p4){
-        QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, "KeyRelease");
-            QList<QVariant> arguments;
-            arguments << p1 << p2 << p3 << p4;
-            msg.setArguments(arguments);
-            QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
-        });
-    }
+    
 private:
     org::deepin::dde::XEventMonitor1 *m_dbusProxy;
 };

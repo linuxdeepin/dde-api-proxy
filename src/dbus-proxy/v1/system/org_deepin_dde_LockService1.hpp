@@ -19,17 +19,7 @@ public:
         m_dbusProxy = new org::deepin::dde::LockService1(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         return m_dbusProxy;
     }
-    virtual void signalMonitorCustom()
-    {
-        connect(m_dbusProxy, &org::deepin::dde::LockService1::UserChanged, this, [this](QString p1){
-            QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, "UserChanged");
-            QList<QVariant> arguments;
-            arguments << p1;
-            msg.setArguments(arguments);
-            QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
-            
-        });
-    }
+    
 private:
     org::deepin::dde::LockService1 *m_dbusProxy;
 };

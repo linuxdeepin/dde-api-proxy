@@ -53,9 +53,10 @@ public:
     }
     // handleMessageCustom:可选，无定义方法处理可不实现
     virtual	bool handleMessageCustom(const QDBusMessage &message, const QDBusConnection &connection) {return false;}
+
     // signalMonitorCustom:可选，无定义信号可不实现
-    // TODO:封装自定义信号的统一处理，可实现所有转发自动处理
-    virtual void signalMonitorCustom() {}
+    virtual void signalMonitorCustom() {};
+
     virtual DDBusExtendedAbstractInterface * initConnect() = 0;
     virtual QString introspectCustom(QString result) const {return result;}
 
@@ -192,6 +193,7 @@ public:
 
     void signalMonitor()
     {
+        signalAutoConnect();
         signalMonitorCustom();
         connect(m_proxy, &DDBusExtendedAbstractInterface::propertyChanged, this, [this](const QString &propName, const QVariant &value){
             // qInfo() << "propertyChanged:" << propName << value;
@@ -225,6 +227,67 @@ public:
             QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
         });
     }
+
+    // 已知固定信号的自动连接
+    void signalAutoConnect()
+    {
+        for(auto i = m_proxy->metaObject()->methodOffset(); i != m_proxy->metaObject()->methodCount(); ++i)
+        {
+            auto m = m_proxy->metaObject()->method(i);
+            // 只需要处理信号
+            if(m.methodType() != QMetaMethod::Signal)
+                continue;
+            QMetaObject::connect(m_proxy, i, this, i);
+        }
+    }
+
+    // 元对象调用
+    int qt_metacall(QMetaObject::Call c, int id, void **arguments)
+    {
+        if (id < 0)
+            return id;
+
+        if (c == QMetaObject::InvokeMetaMethod)
+        {
+            signalHandle(m_proxy->metaObject()->method(id), arguments);
+        }
+
+        return id;
+    }
+
+    // 信号处理
+    void signalHandle(const QMetaMethod &met, void **arguments)
+    {
+        qInfo() << "--> 信号名称: " << met.name();
+        qInfo() << "信号参数名称: " << met.parameterNames();
+        qInfo() << "信号参数类型: " << met.parameterTypes();
+  
+        //创建信号
+        QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, met.name());
+
+        //分析信号参数
+        QList<QVariant> argumentsList;
+        QVariant var;
+        for (int i = 0; i != met.parameterCount(); ++i)
+        {
+            int type = met.parameterType(i);
+            void *arg = arguments[i + 1];
+
+            if(type == QMetaType::UnknownType)
+            {
+                qInfo() << "未知类型，不作处理 !";
+                return;
+            }
+
+            var = QVariant(type, arg);
+            argumentsList << var;
+        }
+        msg.setArguments(argumentsList);
+
+        //发送信息
+        QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
+    }
+
     // SubPathPropInit 有一些属性是子PATH时，用SubPathPropInit注册下，用于PATH前缀自动转换，该方法不会自动动态创建子PATH
     void SubPathPropInit(QString propName, QString proxyPathPrefix) {
         if (propName.isEmpty() || proxyPathPrefix.isEmpty()) {

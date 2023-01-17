@@ -19,15 +19,7 @@ public:
         m_dbusProxy = new org::deepin::dde::Timedate1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;
     }
-    virtual void signalMonitorCustom()
-    {
-        connect(m_dbusProxy, &org::deepin::dde::Timedate1::TimeUpdate, this, [this](){
-            QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, "TimeUpdate");
-            QList<QVariant> arguments;
-            msg.setArguments(arguments);
-            QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
-        });
-    }
+    
 private:
     org::deepin::dde::Timedate1 *m_dbusProxy;
 };
