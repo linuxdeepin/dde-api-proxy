@@ -19,17 +19,7 @@ public:
         m_dbusProxy = new org::deepin::dde::Gesture1(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         return m_dbusProxy;
     }
-    virtual void signalMonitorCustom()
-    {
-        connect(m_dbusProxy, &org::deepin::dde::Gesture1::Event, this, [this](QString p1, QString p2, int p3){
-            QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, "Event");
-            QList<QVariant> arguments;
-            arguments << p1 << p2 << p3;
-            msg.setArguments(arguments);
-            QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
-            
-        });
-    }
+    
 private:
     org::deepin::dde::Gesture1 *m_dbusProxy;
 };

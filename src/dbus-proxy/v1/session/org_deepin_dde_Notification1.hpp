@@ -19,17 +19,7 @@ public:
         m_dbusProxy = new org::deepin::dde::Notification1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;
     }
-    virtual void signalMonitorCustom()
-    {
-        connect(m_dbusProxy, &org::deepin::dde::Notification1::NotificationClosed, this, [this](uint p1, uint p2){
-            QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, "NotificationClosed");
-            QList<QVariant> arguments;
-            arguments << p1 << p2;
-            msg.setArguments(arguments);
-            QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
-            
-        });
-    }
+    
 private:
     org::deepin::dde::Notification1 *m_dbusProxy;
 };
