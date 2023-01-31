@@ -19,9 +19,15 @@
 #include "system/org_deepin_dde_SystemInfo1.hpp"
 #include "system/org_deepin_dde_Timedate1.hpp"
 
+#include "deepinruntime.hpp"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+    if (!DeepinRuntime::CheckStartddeSession()) {
+        qWarning() << "check startdde session error.";
+        return 0;
+    }
     QCommandLineParser parser;
     parser.setApplicationDescription("dde-api-proxy-system");
     parser.addHelpOption();
