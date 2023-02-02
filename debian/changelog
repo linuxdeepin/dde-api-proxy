@@ -1,3 +1,11 @@
+dde-api-proxy (1.0.4) unstable; urgency=medium
+
+  [ TagBuilder ]
+  * feat: 服务信号自动转发(Task: 237943)(Influence: dde-api-proxy)
+  * fix: 大版本升级异常问题修复(Bug: 183785)(Influence: 升级环境)
+
+ -- lvpeilong <lvpeilong@uniontech.com>  Thu, 02 Feb 2023 09:50:30 +0800
+
 dde-api-proxy (1.0.3.1) unstable; urgency=medium
 
   [ TagBuilder ]
