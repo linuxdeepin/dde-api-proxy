@@ -29,7 +29,7 @@ typedef struct DBusProxySubPathInfoDef {
     QString interface;
 }DBusProxySubPathInfo;
 
-// TODO: DBusProxyBase越来越大了，不适合用hpp，且最好拆分成多个类解耦下
+// TODO : DBusProxyBase越来越大了，不适合用hpp，且最好拆分成多个类解耦下
 class DBusProxyBase : public QDBusVirtualObject {
 public:
     DBusProxyBase(QString dbusName, QString dbusPath, QString dbusInterface,
@@ -261,10 +261,6 @@ public:
     // 信号处理
     void signalHandle(const QMetaMethod &met, void **arguments)
     {
-        qInfo() << "--> 信号名称: " << met.name();
-        qInfo() << "信号参数名称: " << met.parameterNames();
-        qInfo() << "信号参数类型: " << met.parameterTypes();
-  
         //创建信号
         QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, m_proxyDbusInterface, met.name());
 
