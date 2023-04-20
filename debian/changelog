@@ -1,3 +1,9 @@
+dde-api-proxy (1.0.5) unstable; urgency=medium
+
+  * fix: Log is too much
+
+ -- lvpeilong <chenhongtao@uniontech.com>  Thu, 20 Apr 2023 14:44:30 +0800
+
 dde-api-proxy (1.0.4) unstable; urgency=medium
 
   [ TagBuilder ]
