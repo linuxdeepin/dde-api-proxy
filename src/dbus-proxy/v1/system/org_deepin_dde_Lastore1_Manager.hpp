@@ -4,6 +4,7 @@
 #pragma once
 
 #include "dbusproxybase.hpp"
+#include "org_deepin_dde_Lastore1_Job.hpp"
 #include "system_org_deepin_dde_Lastore1_Manager.h"
 #include "system_org_deepin_dde_Lastore1_Updater.h"
 
@@ -49,6 +50,15 @@ public:
             msg.setArguments(arguments);
             QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).send(msg);
         });
+
+        SubPathInit("JobList", DBusProxySubPathInfo{"/org/deepin/dde/Lastore1/",
+                                                    "com.deepin.lastore.Job",
+                                                    "org.deepin.dde.Lastore1.Job"},
+                    [=](QString path, QString interface, QString proxyPath, QString proxyInterface) {
+                        return new SystemLastore1JobProxy(m_dbusName, path, interface,
+                                                          m_proxyDbusName, proxyPath, proxyInterface, m_dbusType);
+                    }
+        );
     }
 private:
     org::deepin::dde::lastore1::Manager *m_dbusProxy;
