@@ -310,7 +310,7 @@ public:
         if (var.isValid()) {
             subPathHandler(propName, var, pathMap, func);
         }
-        connect(m_proxy, &DDBusExtendedAbstractInterface::propertyChanged, this, [&](const QString &name, const QVariant &value){
+        connect(m_proxy, &DDBusExtendedAbstractInterface::propertyChanged, this, [=, &pathMap](const QString &name, const QVariant &value){
             if (name != propName || !value.isValid()) {
                 return;
             }
