@@ -65,4 +65,3 @@ private:
     org::deepin::dde::lastore1::Updater *m_dbusUpdaterProxy;
 };
 
-

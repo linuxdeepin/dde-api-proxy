@@ -5,3 +5,4 @@ debian/.debhelper
 debian/dde-api-proxy
 debhelper-build-stamp
 CMakeLists.txt.user
+.cache
