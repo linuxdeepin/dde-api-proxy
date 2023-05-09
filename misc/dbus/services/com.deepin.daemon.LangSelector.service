@@ -1,4 +1,3 @@
 [D-BUS Service]
 Name=com.deepin.daemon.LangSelector
-Exec=/usr/bin/false
-SystemdService=dde-api-dbus-proxy-v1@all.service
+Exec=/usr/lib/dde-api-proxy/dbus-proxy/dde-api-dbus-proxy-session-v1 --all
