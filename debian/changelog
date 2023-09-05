@@ -1,3 +1,9 @@
+dde-api-proxy (1.0.8) unstable; urgency=medium
+
+  * chore: add dde-launchpad as alternative dependency of dde-launcher
+
+ -- Wang Zichong <wangzichong@deepin.org>  Tue, 05 Sep 2023 10:40:00 +0800
+
 dde-api-proxy (1.0.7) unstable; urgency=medium
 
   * chore: remove user session systemd service
