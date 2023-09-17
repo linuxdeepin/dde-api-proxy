@@ -42,12 +42,12 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, LinkInfo &info)
 
 QDebug operator<<(QDebug arg, const LinkInfo &info)
 {
-    arg << "name = " << info.m_name << endl;
-    arg << "friendlyName = " << info.m_friendlyName << endl;
-    arg << "macAddr = " << info.m_macAddr << endl;
-    arg << "managed = " << info.m_managed << endl;
-    arg << "scanning = " << info.m_p2pScanning << endl;
-    arg << "path = " << info.m_dbusPath.path() << endl;
+    arg << "name = " << info.m_name << Qt::endl;
+    arg << "friendlyName = " << info.m_friendlyName << Qt::endl;
+    arg << "macAddr = " << info.m_macAddr << Qt::endl;
+    arg << "managed = " << info.m_managed << Qt::endl;
+    arg << "scanning = " << info.m_p2pScanning << Qt::endl;
+    arg << "path = " << info.m_dbusPath.path() << Qt::endl;
 
     return arg;
 }

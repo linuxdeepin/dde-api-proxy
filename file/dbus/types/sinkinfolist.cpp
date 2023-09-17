@@ -42,12 +42,12 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, SinkInfo &info)
 
 QDebug operator<<(QDebug arg, const SinkInfo &info)
 {
-    arg << "name = " << info.m_name << endl;
-    arg << "p2pMac = " << info.m_p2pMac << endl;
-    arg << "interface = " << info.m_interface << endl;
-    arg << "connected = " << info.m_connected << endl;
-    arg << "peerPath = " << info.m_sinkPath.path() << endl;
-    arg << "linkPath = " << info.m_linkPath.path() << endl;
+    arg << "name = " << info.m_name << Qt::endl;
+    arg << "p2pMac = " << info.m_p2pMac << Qt::endl;
+    arg << "interface = " << info.m_interface << Qt::endl;
+    arg << "connected = " << info.m_connected << Qt::endl;
+    arg << "peerPath = " << info.m_sinkPath.path() << Qt::endl;
+    arg << "linkPath = " << info.m_linkPath.path() << Qt::endl;
 
     return arg;
 }
