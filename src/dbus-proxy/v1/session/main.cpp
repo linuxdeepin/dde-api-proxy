@@ -16,7 +16,6 @@
 #include "session/org_deepin_dde_InputDevice1_TouchPad.hpp"
 #include "session/org_deepin_dde_Keybinding1.hpp"
 #include "session/org_deepin_dde_LangSelector1.hpp"
-#include "session/org_deepin_dde_Mime1.hpp"
 #include "session/org_deepin_dde_Network1.hpp"
 #include "session/org_deepin_dde_Power1.hpp"
 #include "session/org_deepin_dde_SoundEffect1.hpp"
@@ -35,6 +34,7 @@
 #include "session/org_deepin_dde_daemon_Dock1.hpp"
 #include "session/org_deepin_dde_daemon_Launcher1.hpp"
 #include "session/org_deepin_dde_StartManager1.hpp"
+#include "session/org_desktopspec_MimeManager1.hpp"
 // dde-control-center
 #include "session/org_deepin_dde_ControlCenter1.hpp"
 // dde-dock
@@ -159,8 +159,6 @@ int main(int argc, char *argv[])
             "com.deepin.daemon.Keybinding", "/com/deepin/daemon/Keybinding", "com.deepin.daemon.Keybinding", QDBusConnection::SessionBus);
         new SessionLangSelector1Proxy("org.deepin.dde.LangSelector1", "/org/deepin/dde/LangSelector1", "org.deepin.dde.LangSelector1",
             "com.deepin.daemon.LangSelector", "/com/deepin/daemon/LangSelector", "com.deepin.daemon.LangSelector", QDBusConnection::SessionBus);
-        new SessionMime1Proxy("org.deepin.dde.Mime1", "/org/deepin/dde/Mime1", "org.deepin.dde.Mime1",
-            "com.deepin.daemon.Mime", "/com/deepin/daemon/Mime", "com.deepin.daemon.Mime", QDBusConnection::SessionBus);
         new SessionNetwork1Proxy("org.deepin.dde.Network1", "/org/deepin/dde/Network1", "org.deepin.dde.Network1",
             "com.deepin.daemon.Network", "/com/deepin/daemon/Network", "com.deepin.daemon.Network", QDBusConnection::SessionBus);
         new SessionPower1Proxy("org.deepin.dde.Power1", "/org/deepin/dde/Power1", "org.deepin.dde.Power1",
@@ -223,6 +221,8 @@ int main(int argc, char *argv[])
         // V0 StartManager的服务名为"com.deepin.SessionManager"
         new SessionStartManager1Proxy("org.deepin.dde.StartManager1", "/org/deepin/dde/StartManager1", "org.deepin.dde.StartManager1",
             "com.deepin.SessionManager", "/com/deepin/StartManager", "com.deepin.StartManager", QDBusConnection::SessionBus);
+        new SessionMimeManager1Proxy("org.desktopspec.ApplicationManager1", "/org/desktopspec/ApplicationManager1/MimeManager1", "org.desktopspec.MimeManager1",
+            "com.deepin.daemon.Mime", "/com/deepin/daemon/Mime", "com.deepin.daemon.Mime", QDBusConnection::SessionBus);
     }
     if (serviceMoudle.contains("dde-control-center")) {
         qInfo() << "Start the proxy module:" << "dde-control-center";
