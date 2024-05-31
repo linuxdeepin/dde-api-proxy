@@ -113,6 +113,19 @@ public:
                 connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "is not allowed"));
                 return true;
             }
+
+            if (message.member() == "GetAll") {
+                qInfo() << m_proxyDbusInterface << "Properties-GetAll:";
+                QDBusMessage msg = QDBusMessage::createMethodCall(m_proxy->service(), m_proxy->path(), "org.freedesktop.DBus.Properties", "GetAll");
+                msg.setArguments({m_proxy->interface()});
+                QDBusMessage reply = connection.call(msg);
+
+                // TODO:
+
+                connection.send(message.createReply(reply.arguments()));
+                return true;
+            }
+
             QString prop = message.arguments().at(1).toString();
             if (prop.isEmpty() || (m_filterProperiesEnable && !m_filterProperies.contains(prop))) {
                 qInfo() << m_proxyDbusInterface << "Properties-filter:" << prop << "is not allowed.";
