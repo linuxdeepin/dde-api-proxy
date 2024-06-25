@@ -14,7 +14,13 @@ public:
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
         InitFilterProperies(QStringList({"CanSendFile", "State"}));
-        InitFilterMethods(QStringList({"GetAdapters", "SetAdapterPowered", "GetDevices"}));
+        InitFilterMethods(QStringList({"GetAdapters",
+                                       "SetAdapterPowered",
+                                       "GetDevices",
+                                       "RequestDiscovery",
+                                       "ConnectDevice",
+                                       "DisconnectDevice",
+                                       "ClearUnpairedDevice"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
