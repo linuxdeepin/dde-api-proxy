@@ -14,7 +14,7 @@ public:
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
         InitFilterProperies(QStringList({}));
-        InitFilterMethods(QStringList({"Restart", "Show"}));
+//        InitFilterMethods(QStringList({"Restart", "Show"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
