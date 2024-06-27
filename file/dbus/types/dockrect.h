@@ -11,6 +11,8 @@ struct DockRect
 {
 public:
     DockRect();
+    DockRect(const QRect &rect);
+
     operator QRect() const;
 
     friend QDebug operator<<(QDebug debug, const DockRect &rect);
