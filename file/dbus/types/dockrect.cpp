@@ -13,6 +13,15 @@ DockRect::DockRect()
 
 }
 
+DockRect::DockRect(const QRect &rect)
+{
+    x = rect.x();
+    y = rect.y();
+    w = rect.width();
+    h = rect.height();
+}
+
+
 QDebug operator<<(QDebug debug, const DockRect &rect)
 {
     debug << QString("DockRect(%1, %2, %3, %4)").arg(rect.x)

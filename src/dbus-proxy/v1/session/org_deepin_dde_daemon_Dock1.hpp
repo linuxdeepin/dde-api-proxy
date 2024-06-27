@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
+#include "types/dockrect.h"
 #include "dbusproxybase.hpp"
 #include "session_org_deepin_dde_daemon_Dock1.h"
 
@@ -15,6 +16,9 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr)
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
+        if (QMetaType::type("DockRect") == QMetaType::UnknownType)
+            registerDockRectMetaType();
+
         // InitFilterProperies(QStringList({"FrontendWindowRect", "HideState", "HideMode", "DisplayMode", "Position"}));
         // InitFilterMethods(QStringList({"RequestDock", "RequestUndock", "ActivateWindow"}));
         ServiceStart();

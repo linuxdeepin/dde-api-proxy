@@ -93,8 +93,8 @@
   <property name="HideTimeout" type="u" access="readwrite"/>
   <property name="DockedApps" type="as" access="read"/>
   <property name="HideState" type="i" access="read"/>
-  <property name="FrontendWindowRect" type="(iiuu)" access="read">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="DockRect"/>
+  <property name="FrontendWindowRect" type="(iiii)" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="NewDockRect"/>
   </property>
   <property name="Opacity" type="d" access="readwrite"/>
 </interface>

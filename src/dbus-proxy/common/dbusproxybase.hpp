@@ -4,6 +4,7 @@
 #pragma once
 
 #include "dtkcore_global.h"
+#include "types/dockrect.h"
 
 #include <QDBusVirtualObject>
 #include <QDBusAbstractInterface>
@@ -135,6 +136,11 @@ public:
             if (message.member() == "Get") {
                 qInfo() << m_proxyDbusInterface << "Properties-Get:" << prop;
                 QVariant var = m_proxy->property(prop.toStdString().c_str());
+
+                if (strcmp(var.typeName(), "QRect") == 0 || strcmp(var.typeName(), "NewDockRect") == 0) {
+                    var.setValue(DockRect(var.toRect()));
+                }
+
                 if (!var.isValid()) {
                     qWarning() << m_proxyDbusInterface << "Properties-Get error: Unknow";
                     connection.send(message.createErrorReply("com.deepin.dde.error.Unknow", "unknow error"));
