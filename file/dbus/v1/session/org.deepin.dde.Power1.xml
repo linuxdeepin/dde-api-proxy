@@ -33,4 +33,5 @@
     <property name="LowPowerNotifyThreshold" type="i" access="readwrite"/>
     <property name="LowPowerAutoSleepThreshold" type="i" access="readwrite"/>
     <property name="IsHighPerformanceSupported" type="b" access="read"/>
+    <property name="UseWayland" type="b" access="read"/>
 </interface>
