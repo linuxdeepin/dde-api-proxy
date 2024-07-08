@@ -1,3 +1,16 @@
+dde-api-proxy (1.0.11) unstable; urgency=medium
+
+ * chore: 支持1070蓝牙插件迁移的接口调用
+ * chore: 开放ShutdownFront接口权限
+ * chore: 去掉dde-dock依赖 (#22)
+ * chore: 添加inputdevice子接口
+ * chore: 开放power接口 (#24)
+ * chore: 控制中心showpage的入参兼容v20和v23
+ * chore: 开放system/power的接口
+ * chore: 开放lockfront的接口
+
+ -- Wang Fei <wangfei@deepin.org>  Mon, 08 Jul 2024 13:44:37 +0800
+
 dde-api-proxy (1.0.10) unstable; urgency=medium
 
   * chore: update appearance dbus xml
