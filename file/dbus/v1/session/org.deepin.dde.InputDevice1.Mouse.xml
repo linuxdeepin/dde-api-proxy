@@ -1,5 +1,8 @@
 <interface name="org.deepin.dde.InputDevice1.Mouse">
         <method name="Reset"></method>
+        <method name="Enable">
+                <arg type="b" direction="in"></arg>
+        </method>
         <property name="LeftHanded" type="b" access="readwrite"></property>
         <property name="DisableTpad" type="b" access="readwrite"></property>
         <property name="NaturalScroll" type="b" access="readwrite"></property>
@@ -12,4 +15,5 @@
         <property name="DragThreshold" type="i" access="readwrite"></property>
         <property name="DeviceList" type="s" access="read"></property>
         <property name="Exist" type="b" access="read"></property>
+        <property name="Enabled" type="b" access="readwrite"></property>
 </interface>

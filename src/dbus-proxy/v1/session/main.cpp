@@ -14,6 +14,9 @@
 #include "session/org_deepin_dde_InputDevices1.hpp"
 #include "session/org_deepin_dde_InputDevice1_Wacom.hpp"
 #include "session/org_deepin_dde_InputDevice1_TouchPad.hpp"
+#include "session/org_deepin_dde_InputDevice1_Keyboard.hpp"
+#include "session/org_deepin_dde_InputDevice1_Mouse.hpp"
+#include "session/org_deepin_dde_InputDevice1_TrackPoint.hpp"
 #include "session/org_deepin_dde_Keybinding1.hpp"
 #include "session/org_deepin_dde_LangSelector1.hpp"
 #include "session/org_deepin_dde_Network1.hpp"
@@ -155,6 +158,12 @@ int main(int argc, char *argv[])
             "com.deepin.daemon.InputDevices", "/com/deepin/daemon/InputDevice/Wacom", "com.deepin.daemon.InputDevice.Wacom", QDBusConnection::SessionBus);
         new SessionInputDevice1TouchPadProxy("org.deepin.dde.InputDevices1", "/org/deepin/dde/InputDevice1/TouchPad", "org.deepin.dde.InputDevice1.TouchPad",
             "com.deepin.daemon.InputDevices", "/com/deepin/daemon/InputDevice/TouchPad", "com.deepin.daemon.InputDevice.TouchPad", QDBusConnection::SessionBus);
+        new SessionInputDevice1KeyboardProxy("org.deepin.dde.InputDevices1", "/org/deepin/dde/InputDevice1/Keyboard", "org.deepin.dde.InputDevice1.Keyboard",
+            "com.deepin.daemon.InputDevices", "/com/deepin/daemon/InputDevice/Keyboard", "com.deepin.daemon.InputDevice.Keyboard", QDBusConnection::SessionBus);
+        new SessionInputDevice1MouseProxy("org.deepin.dde.InputDevices1", "/org/deepin/dde/InputDevice1/Mouse", "org.deepin.dde.InputDevice1.Mouse",
+            "com.deepin.daemon.InputDevices", "/com/deepin/daemon/InputDevice/Mouse", "com.deepin.daemon.InputDevice.Mouse", QDBusConnection::SessionBus);
+        new SessionInputDevice1TrackPointProxy("org.deepin.dde.InputDevices1", "/org/deepin/dde/InputDevice1/Mouse", "org.deepin.dde.InputDevice1.TrackPoint",
+            "com.deepin.daemon.InputDevices", "/com/deepin/daemon/InputDevice/Mouse", "com.deepin.daemon.InputDevice.TrackPoint", QDBusConnection::SessionBus);
         new SessionKeybinding1Proxy("org.deepin.dde.Keybinding1", "/org/deepin/dde/Keybinding1", "org.deepin.dde.Keybinding1",
             "com.deepin.daemon.Keybinding", "/com/deepin/daemon/Keybinding", "com.deepin.daemon.Keybinding", QDBusConnection::SessionBus);
         new SessionLangSelector1Proxy("org.deepin.dde.LangSelector1", "/org/deepin/dde/LangSelector1", "org.deepin.dde.LangSelector1",
