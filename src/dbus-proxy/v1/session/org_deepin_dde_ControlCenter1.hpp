@@ -29,16 +29,23 @@ public:
                 connection.send(message.createReply(call.reply().arguments()));
                 return true;
             } else if (message.member() == "ShowPage") {
-                // V23的ShowPage参数从两个变成一个
-                if (message.arguments().size() != 2) {
-                    connection.send(message.createErrorReply("com.deepin.dde.error.ParamError", "param error"));
-                } else {
-                    QString param = message.arguments().at(0).toString() + "/" + message.arguments().at(1).toString();
+                // V23的ShowPage参数从两个变成一个, 兼容v20是两个参数的情况
+                if (message.arguments().size() == 1) {
+                    QDBusPendingCall call = m_dbusProxy->asyncCallWithArgumentList("ShowPage", message.arguments());
+                    call.waitForFinished();
+                    connection.send(message.createReply(call.reply().arguments()));
+                } else if (message.arguments().size() == 2) {
+                    QString param = message.arguments().at(0).toString();
+                    if (message.arguments().at(1).toString() != "") {
+                        param = param + "/" + message.arguments().at(1).toString();
+                    }
                     QList<QVariant> arguments;
                     arguments << param;
                     QDBusPendingCall call = m_dbusProxy->asyncCallWithArgumentList("ShowPage", arguments);
                     call.waitForFinished();
                     connection.send(message.createReply(call.reply().arguments()));
+                } else {
+                    connection.send(message.createErrorReply("com.deepin.dde.error.ParamError", "param error"));
                 }
                 return true;
             }
