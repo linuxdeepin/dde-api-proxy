@@ -13,8 +13,6 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"PowerSavingModeEnabled", "BatteryPercentage", "HasBattery", "OnBattery"}));
-        InitFilterMethods(QStringList({"SetMode"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
