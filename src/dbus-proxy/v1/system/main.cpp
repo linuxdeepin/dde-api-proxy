@@ -21,6 +21,7 @@
 #include "system/org_deepin_dde_Power1.hpp"
 #include "system/org_deepin_dde_SystemInfo1.hpp"
 #include "system/org_deepin_dde_Timedate1.hpp"
+#include "system/org_deepin_dde_AirplaneMode1.hpp"
 
 #include "deepinruntime.hpp"
 
@@ -89,6 +90,8 @@ int main(int argc, char *argv[])
             "com.deepin.system.SystemInfo", "/com/deepin/system/SystemInfo", "com.deepin.system.SystemInfo", QDBusConnection::SystemBus);
         new SystemTimedate1Proxy("org.deepin.dde.Timedate1", "/org/deepin/dde/Timedate1", "org.deepin.dde.Timedate1", 
             "com.deepin.daemon.Timedated", "/com/deepin/daemon/Timedated", "com.deepin.daemon.Timedated", QDBusConnection::SystemBus);
+        new SystemAirplaneMode1Proxy("org.deepin.dde.AirplaneMode1", "/org/deepin/dde/AirplaneMode1", "org.deepin.dde.AirplaneMode1",
+            "com.deepin.daemon.AirplaneMode", "/com/deepin/daemon/AirplaneMode", "com.deepin.daemon.AirplaneMode", QDBusConnection::SystemBus);
         // V0.5 -> V1
         new SystemAccounts1Proxy("org.deepin.dde.Accounts1", "/org/deepin/dde/Accounts1", "org.deepin.dde.Accounts1", 
             "org.deepin.daemon.Accounts1", "/org/deepin/daemon/Accounts1", "org.deepin.daemon.Accounts1", QDBusConnection::SystemBus);
