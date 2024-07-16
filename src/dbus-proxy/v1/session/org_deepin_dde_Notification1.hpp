@@ -13,8 +13,6 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({}));
-        InitFilterMethods(QStringList({"Nofity"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

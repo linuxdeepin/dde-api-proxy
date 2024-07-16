@@ -46,9 +46,6 @@
   <method name="Toggle"/>
   <method name="Show"/>
   <method name="Hide"/>
-  <method name="recordCount">
-    <arg direction="out" type="u"/>
-  </method>
   <method name="GetAppList">
     <arg direction="out" type="as"/>
   </method>
@@ -113,4 +110,5 @@
   </signal>
   <property name="allSetting" type="s" access="readwrite"/>
   <property name="systemSetting" type="s" access="readwrite"/>
+  <property name="recordCount" type="u" access="read"/>
 </interface>
