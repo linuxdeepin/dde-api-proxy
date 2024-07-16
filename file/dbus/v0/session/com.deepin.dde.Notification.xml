@@ -113,4 +113,5 @@
   </signal>
   <property name="allSetting" type="s" access="readwrite"/>
   <property name="systemSetting" type="s" access="readwrite"/>
+  <property name="recordCount" type="u" access="read"/>
 </interface>
