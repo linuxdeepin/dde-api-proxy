@@ -13,8 +13,6 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr)
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"State", "Devices", "WirelessAccessPoints"}));
-        InitFilterMethods(QStringList({"GetActiveConnectionInfo", "IsDevicesEnabled", "EnableDevice", "RequestIPConflictCheck", "GetActiveConnectionInfo", "GetSupportedConnectionTypes", "GetProxyMethod"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
