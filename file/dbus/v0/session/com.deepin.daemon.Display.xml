@@ -79,5 +79,6 @@
           </property>
           <property name="ColorTemperatureMode" type="i" access="read"></property>
           <property name="ColorTemperatureManual" type="i" access="read"></property>
+          <property name="SupportColorTemperature" type="b" access="read"></property>
      </interface>
 
