@@ -10,3 +10,7 @@ install(FILES ${INSTALL_DBUS_SYSTEMSERVICES} DESTINATION share/dbus-1/system-ser
 
 file(GLOB_RECURSE INSTALL_SYSTEMD_SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/systemd/system/*.service)
 install(FILES ${INSTALL_SYSTEMD_SYSTEM} DESTINATION lib/systemd/system/)
+
+file(GLOB_RECURSE INSTALL_SYSTEMD_USER ${CMAKE_CURRENT_SOURCE_DIR}/systemd/user/*.service)
+install(FILES ${INSTALL_SYSTEMD_USER} DESTINATION lib/systemd/user/)
+install_symlink(dde-api-dbus-proxy-v1.service dde-session-initialized.target.wants)
