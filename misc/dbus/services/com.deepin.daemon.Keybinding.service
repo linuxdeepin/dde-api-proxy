@@ -1,3 +1,4 @@
 [D-BUS Service]
 Name=com.deepin.daemon.Keybinding
 Exec=/usr/lib/dde-api-proxy/dbus-proxy/dde-api-dbus-proxy-session-v1 --all
+SystemdService=dde-api-dbus-proxy-v1.service
