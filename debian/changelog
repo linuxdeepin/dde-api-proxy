@@ -1,13 +1,23 @@
+dde-api-proxy (1.0.12) UNRELEASED; urgency=medium
+
+  * chore: 开放system/network权限
+  * chore: 将api-proxy启动提前
+  * chore: 开放显示/网络/时间的V0接口权限，适配任务栏插件
+  * chore: 开放Notification V0接口 (#31)
+  * chore: 添加飞行模式接口 (#30)
+
+ -- fuleyi <fuleyi@uniontech.com>  Fri, 19 Jul 2024 17:34:05 +0800
+
 dde-api-proxy (1.0.11) unstable; urgency=medium
 
- * chore: 支持1070蓝牙插件迁移的接口调用
- * chore: 开放ShutdownFront接口权限
- * chore: 去掉dde-dock依赖 (#22)
- * chore: 添加inputdevice子接口
- * chore: 开放power接口 (#24)
- * chore: 控制中心showpage的入参兼容v20和v23
- * chore: 开放system/power的接口
- * chore: 开放lockfront的接口
+  * chore: 支持1070蓝牙插件迁移的接口调用
+  * chore: 开放ShutdownFront接口权限
+  * chore: 去掉dde-dock依赖 (#22)
+  * chore: 添加inputdevice子接口
+  * chore: 开放power接口 (#24)
+  * chore: 控制中心showpage的入参兼容v20和v23
+  * chore: 开放system/power的接口
+  * chore: 开放lockfront的接口
 
  -- Wang Fei <wangfei@deepin.org>  Mon, 08 Jul 2024 13:44:37 +0800
 
