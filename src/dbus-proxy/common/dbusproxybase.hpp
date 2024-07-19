@@ -219,19 +219,15 @@ public:
             }
 
             QVariant varFix(value);
-            auto iterFind = m_pathInfoMap.find(propName);
-            if (iterFind != m_pathInfoMap.end()) {
+            auto iterFindProp = m_pathPropMap.find(propName);
+            if (iterFindProp != m_pathPropMap.end()) {
                 // 如果属性是subPath的属性，则需要转换
-                const DBusProxySubPathInfo &pathInfo = iterFind.value();
+                const QString &prefix = iterFindProp.value();
                 QVariant varTemp;
-                if (subPathVariantCast(varFix, pathInfo, varTemp)) {
+                if (subPathPropVariantCast(varFix, prefix, varTemp)) {
                     varFix = varTemp;
-                } else {
-                    qWarning() << m_proxyDbusInterface << "propertyChanged, error to cast prop:" << propName;
-                    return;
                 }
             }
-
             QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, "org.freedesktop.DBus.Properties", "PropertiesChanged");
             QList<QVariant> arguments;
             arguments.push_back(m_proxyDbusInterface);

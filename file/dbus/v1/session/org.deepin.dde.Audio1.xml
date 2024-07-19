@@ -43,4 +43,7 @@
     <property name="MaxUIVolume" type="d" access="read"/>
     <property name="IncreaseVolume" type="b" access="readwrite"/>
     <property name="ReduceNoise" type="b" access="readwrite"/>
+    <property name="CurrentAudioServer" type="s" access="read"/>
+    <property name="PausePlayer" type="b" access="readwrite"/>
+    <property name="AudioServerState" type="b" access="read"/>
   </interface>
