@@ -45,14 +45,13 @@ public:
         , m_filterProperiesEnable(false)
         , m_filterMethodsEnable(false)
     {
-        m_thread = new QThread(this);
-        connect(m_thread, &QThread::started, this, &DBusProxyBase::threadRun);
-        moveToThread(m_thread);
     }
     virtual	~DBusProxyBase() {
-        QMetaObject::invokeMethod(this, &DBusProxyBase::serviceStop, Qt::BlockingQueuedConnection);
-        m_thread->quit();
-        m_thread->wait(1000);
+        QDBusConnection::connectToBus(QDBusConnection::SessionBus, m_proxyDbusName).unregisterObject(m_proxyDbusPath);
+        if (m_proxy) {
+            delete m_proxy;
+            m_proxy = nullptr;
+        }
     }
     // handleMessageCustom:可选，无定义方法处理可不实现
     virtual	bool handleMessageCustom(const QDBusMessage &message, const QDBusConnection &connection) {return false;}
@@ -66,7 +65,17 @@ public:
     void ServiceStart()
     {
         qInfo() << "proxy:" << m_proxyDbusInterface << "to" << m_dbusInterface;
-        m_thread->start();
+        m_proxy = initConnect();
+        if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerVirtualObject(m_proxyDbusPath, this)) {
+            qWarning() << m_proxyDbusInterface << "failed to register object:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
+            return;
+        }
+        if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerService(m_proxyDbusName)) {
+            qWarning() << m_proxyDbusInterface << "failed to register service:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
+            return;
+        }
+
+        signalMonitor();
     }
 
     // 不设置默认不检验，全部有权限；设置了后list中指定的才有权限
@@ -450,27 +459,6 @@ public:
         return cmd;
     }
 
-public slots:
-    void threadRun()
-    {
-        m_proxy = initConnect();
-        signalMonitor();
-        if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerService(m_proxyDbusName)) {
-            qWarning() << m_proxyDbusInterface << "failed to register service:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
-            return;
-        }
-        if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerVirtualObject(m_proxyDbusPath, this)) {
-            qWarning() << m_proxyDbusInterface << "failed to register object:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
-            return;
-        }
-    }
-    void serviceStop()
-    {
-        QDBusConnection::connectToBus(QDBusConnection::SessionBus, m_proxyDbusName).unregisterObject(m_proxyDbusPath);
-        if (m_proxy) {
-            delete m_proxy;
-        }
-    }
 protected:
     QString m_dbusName;
     QString m_dbusPath;
@@ -485,7 +473,6 @@ private:
     QStringList m_filterProperies;
     bool m_filterMethodsEnable;
     QStringList m_filterMethods;
-    QThread *m_thread;
     // subpath
     QMap<QString, DBusProxyBase *> m_pathMap;
     QMap<QString, DBusProxySubPathInfo> m_pathInfoMap;
