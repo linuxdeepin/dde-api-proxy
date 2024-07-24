@@ -35,97 +35,78 @@ int main(int argc, char *argv[])
     QCommandLineParser parser;
     parser.setApplicationDescription("dde-api-proxy-system");
     parser.addHelpOption();
-    QCommandLineOption allOption(QStringList() << "a" << "all", "all system proxy.");
-    QCommandLineOption ddeDaemonOption(QStringList() << "d" << "ddedaemon", "dde-daemon system proxy.");
-    QCommandLineOption lastoreDaemonOption(QStringList() << "l" << "lastoredaemon", "lastore-daemon system proxy.");
-    QCommandLineOption ddeLockServiceOption(QStringList() << "L" << "ddelockservice", "dde-lockservice system proxy.");
-    QCommandLineOption deepinPWCheckOption(QStringList() << "p" << "deepinpwcheck", "deepin-pw-check system proxy.");
-    parser.addOption(allOption);
-    parser.addOption(ddeDaemonOption);
-    parser.addOption(lastoreDaemonOption);
-    parser.addOption(ddeLockServiceOption);
-    parser.addOption(deepinPWCheckOption);
+    QCommandLineOption serviceOption({"s", "service"}, "specific the service name", "service name");
+    parser.addOption(serviceOption);
     parser.process(a);
 
-    QStringList serviceMoudle;
-    if(parser.isSet(allOption)) {
-        serviceMoudle << "dde-daemon" << "lastore-daemon" << "dde-lockservice" << "deepin-pw-check";
-    }
-    if (parser.isSet(ddeDaemonOption)) {
-        serviceMoudle << "dde-daemon";
-    }
-    if (parser.isSet(lastoreDaemonOption)) {
-        serviceMoudle << "lastore-daemon";
-    }
-    if (parser.isSet(ddeLockServiceOption)) {
-        serviceMoudle << "dde-lockservice";
-    }
-    if (parser.isSet(deepinPWCheckOption)) {
-        serviceMoudle << "deepin-pw-check";
-    }
-    serviceMoudle.removeDuplicates();
-    qInfo() << "";
-    qInfo() << "Will to start proxy modules:" << serviceMoudle;
-
-    if (serviceMoudle.contains("dde-daemon")) {
-        qInfo() << "Start the proxy module:" << "dde-daemon";
+    if (parser.value(serviceOption) == "com.deepin.daemon.Accounts") {
         // V0 -> V1
         new SystemAccounts1Proxy("org.deepin.dde.Accounts1", "/org/deepin/dde/Accounts1", "org.deepin.dde.Accounts1", 
             "com.deepin.daemon.Accounts", "/com/deepin/daemon/Accounts", "com.deepin.daemon.Accounts", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "com.deepin.system.Display") {
         new SystemDisplay1Proxy("org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1", 
             "com.deepin.system.Display", "/com/deepin/system/Display", "com.deepin.system.Display", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "com.deepin.daemon.Gesture") {
         new SystemGesture1Proxy("org.deepin.dde.Gesture1", "/org/deepin/dde/Gesture1", "org.deepin.dde.Gesture1", 
             "com.deepin.daemon.Gesture", "/com/deepin/daemon/Gesture", "com.deepin.daemon.Gesture", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "com.deepin.daemon.Grub2") {
         new SystemGrub2Proxy("org.deepin.dde.Grub2", "/org/deepin/dde/Grub2", "org.deepin.dde.Grub2", 
             "com.deepin.daemon.Grub2", "/com/deepin/daemon/Grub2", "com.deepin.daemon.Grub2", QDBusConnection::SystemBus);
         new SystemGrub2ThemeProxy("org.deepin.dde.Grub2", "/org/deepin/dde/Grub2/Theme", "org.deepin.dde.Grub2.Theme", 
             "com.deepin.daemon.Grub2", "/com/deepin/daemon/Grub2/Theme", "com.deepin.daemon.Grub2.Theme", QDBusConnection::SystemBus);
         new SystemGrub2EditAuthenticationProxy("org.deepin.dde.Grub2", "/org/deepin/dde/Grub2/EditAuthentication", "org.deepin.dde.Grub2.EditAuthentication", 
             "com.deepin.daemon.Grub2", "/com/deepin/daemon/Grub2/EditAuthentication", "com.deepin.daemon.Grub2.EditAuthentication", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "com.deepin.system.Network") {
         new SystemNetwork1Proxy("org.deepin.dde.Network1", "/org/deepin/dde/Network1", "org.deepin.dde.Network1", 
             "com.deepin.system.Network", "/com/deepin/system/Network", "com.deepin.system.Network", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "com.deepin.system.Power") {
         new SystemPower1Proxy("org.deepin.dde.Power1", "/org/deepin/dde/Power1", "org.deepin.dde.Power1", 
             "com.deepin.system.Power", "/com/deepin/system/Power", "com.deepin.system.Power", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "com.deepin.system.SystemInfo") {
         new SystemSystemInfo1Proxy("org.deepin.dde.SystemInfo1", "/org/deepin/dde/SystemInfo1", "org.deepin.dde.SystemInfo1", 
             "com.deepin.system.SystemInfo", "/com/deepin/system/SystemInfo", "com.deepin.system.SystemInfo", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "com.deepin.daemon.Timedated") {
         new SystemTimedate1Proxy("org.deepin.dde.Timedate1", "/org/deepin/dde/Timedate1", "org.deepin.dde.Timedate1", 
             "com.deepin.daemon.Timedated", "/com/deepin/daemon/Timedated", "com.deepin.daemon.Timedated", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "com.deepin.daemon.AirplaneMode") {
         new SystemAirplaneMode1Proxy("org.deepin.dde.AirplaneMode1", "/org/deepin/dde/AirplaneMode1", "org.deepin.dde.AirplaneMode1",
             "com.deepin.daemon.AirplaneMode", "/com/deepin/daemon/AirplaneMode", "com.deepin.daemon.AirplaneMode", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "org.deepin.daemon.Accounts1") {
         // V0.5 -> V1
         new SystemAccounts1Proxy("org.deepin.dde.Accounts1", "/org/deepin/dde/Accounts1", "org.deepin.dde.Accounts1", 
             "org.deepin.daemon.Accounts1", "/org/deepin/daemon/Accounts1", "org.deepin.daemon.Accounts1", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "org.deepin.daemon.Grub2") {
         new SystemGrub2Proxy("org.deepin.dde.Grub2", "/org/deepin/dde/Grub2", "org.deepin.dde.Grub2", 
             "org.deepin.daemon.Grub2", "/org/deepin/daemon/Grub2", "org.deepin.daemon.Grub2", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "org.deepin.daemon.Grub2") {
         new SystemGrub2ThemeProxy("org.deepin.dde.Grub2", "/org/deepin/dde/Grub2/Theme", "org.deepin.dde.Grub2.Theme", 
             "org.deepin.daemon.Grub2", "/org/deepin/daemon/Grub2/Theme", "org.deepin.daemon.Grub2.Theme", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "org.deepin.daemon.Grub2") {
         new SystemGrub2EditAuthenticationProxy("org.deepin.dde.Grub2", "/org/deepin/dde/Grub2/EditAuthentication", "org.deepin.dde.Grub2.EditAuthentication", 
             "org.deepin.daemon.Grub2", "/org/deepin/daemon/Grub2/EditAuthentication", "org.deepin.daemon.Grub2.EditAuthentication", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "org.deepin.system.Power1") {
         new SystemPower1Proxy("org.deepin.dde.Power1", "/org/deepin/dde/Power1", "org.deepin.dde.Power1", 
             "org.deepin.system.Power1", "/org/deepin/system/Power1", "org.deepin.system.Power1", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "org.deepin.system.SystemInfo1") {
         new SystemSystemInfo1Proxy("org.deepin.dde.SystemInfo1", "/org/deepin/dde/SystemInfo1", "org.deepin.dde.SystemInfo1", 
             "org.deepin.system.SystemInfo1", "/org/deepin/system/SystemInfo1", "org.deepin.system.SystemInfo1", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "org.deepin.daemon.Timedated1") {
         new SystemTimedate1Proxy("org.deepin.dde.Timedate1", "/org/deepin/dde/Timedate1", "org.deepin.dde.Timedate1", 
             "org.deepin.daemon.Timedated1", "/org/deepin/daemon/Timedated1", "org.deepin.daemon.Timedated1", QDBusConnection::SystemBus);
-    }
-    if (serviceMoudle.contains("lastore-daemon")) {
-        qInfo() << "Start the proxy module:" << "lastore-daemon";
+    } else if (parser.value(serviceOption) == "com.deepin.lastore") {
         // SystemLastore1ManagerProxy: 包含Manager和Updater
         // V0 -> V1
         new SystemLastore1ManagerProxy("org.deepin.dde.Lastore1", "/org/deepin/dde/Lastore1", "org.deepin.dde.Lastore1.Manager", 
             "com.deepin.lastore", "/com/deepin/lastore", "com.deepin.lastore.Manager", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "org.deepin.lastore1") {
         // V0.5 -> V1
         new SystemLastore1ManagerProxy("org.deepin.dde.Lastore1", "/org/deepin/dde/Lastore1", "org.deepin.dde.Lastore1.Manager", 
             "org.deepin.lastore1", "/org/deepin/lastore1", "org.deepin.lastore1.Manager", QDBusConnection::SystemBus);
-    }
-    if (serviceMoudle.contains("dde-lockservice")) {
-        qInfo() << "Start the proxy module:" << "dde-lockservice";
+    } else if (parser.value(serviceOption) == "com.deepin.dde.LockService") {
         // V0 -> V1
         new SystemLockService1Proxy("org.deepin.dde.LockService1", "/org/deepin/dde/LockService1", "org.deepin.dde.LockService1", 
             "com.deepin.dde.LockService", "/com/deepin/dde/LockService", "com.deepin.dde.LockService", QDBusConnection::SystemBus);
-    }
-    if (serviceMoudle.contains("deepin-pw-check")) {
-        qInfo() << "Start the proxy module:" << "deepin-pw-check";
+    } else if (parser.value(serviceOption) == "com.deepin.daemon.PasswdConf") {
         // V0 -> V1
         new SystemPasswdConf1Proxy("org.deepin.dde.PasswdConf1", "/org/deepin/dde/PasswdConf1", "org.deepin.dde.PasswdConf1", 
             "com.deepin.daemon.PasswdConf", "/com/deepin/daemon/PasswdConf", "com.deepin.daemon.PasswdConf", QDBusConnection::SystemBus);

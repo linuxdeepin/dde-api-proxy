@@ -2,5 +2,6 @@
 Description=dde-api-proxy-v1 service for %I
 
 [Service]
-Type=simple
-ExecStart=/usr/lib/dde-api-proxy/dbus-proxy/dde-api-dbus-proxy-system-v1 --%I
+Type=dbus
+BusName=%I
+ExecStart=/usr/lib/dde-api-proxy/dbus-proxy/dde-api-dbus-proxy-system-v1 -s %I
