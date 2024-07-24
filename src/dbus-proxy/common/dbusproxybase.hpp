@@ -227,6 +227,19 @@ public:
                 if (subPathPropVariantCast(varFix, prefix, varTemp)) {
                     varFix = varTemp;
                 }
+            } else {
+                auto iterFind = m_pathInfoMap.find(propName);
+                if (iterFind != m_pathInfoMap.end()) {
+                    // 如果属性是subPath的属性，则需要转换
+                    const DBusProxySubPathInfo &pathInfo = iterFind.value();
+                    QVariant varTemp;
+                    if (subPathVariantCast(varFix, pathInfo, varTemp)) {
+                        varFix = varTemp;
+                    } else {
+                        qWarning() << m_proxyDbusInterface << "propertyChanged, error to cast prop:" << propName;
+                        return;
+                    }
+                }
             }
             QDBusMessage msg = QDBusMessage::createSignal(m_proxyDbusPath, "org.freedesktop.DBus.Properties", "PropertiesChanged");
             QList<QVariant> arguments;
@@ -453,20 +466,24 @@ public:
 public slots:
     void threadRun()
     {
-        m_proxy = initConnect();
-        signalMonitor();
-        if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerService(m_proxyDbusName)) {
-            qWarning() << m_proxyDbusInterface << "failed to register service:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
-            return;
-        }
-        if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerVirtualObject(m_proxyDbusPath, this)) {
-            qWarning() << m_proxyDbusInterface << "failed to register object:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
-            return;
+        auto conn = m_dbusType == QDBusConnection::SessionBus ? QDBusConnection::sessionBus() : QDBusConnection::systemBus();
+        bool isRegisterd = conn.interface()->isServiceRegistered(m_dbusName);
+        if (!isRegisterd) {
+            // 如果服务未启动，则等待服务启动
+            QDBusServiceWatcher *serviceWatcher = new QDBusServiceWatcher(this);
+            serviceWatcher->setConnection(conn);
+            qWarning() << m_dbusInterface << "service is not register, waiting...";
+            serviceWatcher->addWatchedService(m_dbusName);
+            connect(serviceWatcher, &QDBusServiceWatcher::serviceRegistered, this, [ & ](){
+                connectToBus();
+            });
+        } else {
+            connectToBus();
         }
     }
     void serviceStop()
     {
-        QDBusConnection::connectToBus(QDBusConnection::SessionBus, m_proxyDbusName).unregisterObject(m_proxyDbusPath);
+        QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).unregisterObject(m_proxyDbusPath);
         if (m_proxy) {
             delete m_proxy;
         }
@@ -490,6 +507,19 @@ private:
     QMap<QString, DBusProxyBase *> m_pathMap;
     QMap<QString, DBusProxySubPathInfo> m_pathInfoMap;
     QMap<QString, QString> m_pathPropMap;
+    void connectToBus(){
+        qInfo() << "proxy:" << m_proxyDbusInterface << "to" << m_dbusInterface;
+        m_proxy = initConnect();
+        signalMonitor();
+        if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerService(m_proxyDbusName)) {
+            qWarning() << m_proxyDbusInterface << "failed to register service:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
+            return;
+        }
+        if (!QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).registerVirtualObject(m_proxyDbusPath, this)) {
+            qWarning() << m_proxyDbusInterface << "failed to register object:" << QDBusConnection::connectToBus(m_dbusType, m_proxyDbusName).lastError().message();
+            return;
+        }
+    }
 };
 
 
