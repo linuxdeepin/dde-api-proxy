@@ -153,7 +153,7 @@ public:
                         // 如果属性是subPath的属性，则需要转换
                         const DBusProxySubPathInfo &pathInfo = iterFind.value();
                         QVariant varFix;
-                        if (subPathVariantCast(var, pathInfo, varFix)) {
+                        if (subPathVariantCast(var, pathInfo.proxyPathPrefix, varFix)) {
                             QVariant dbusVar;
                             dbusVar.setValue(QDBusVariant(varFix));
                             connection.send(message.createReply(dbusVar));
@@ -168,7 +168,7 @@ public:
                         // 如果属性是subPath的属性，则需要转换
                         const QString &prefix = iterFindProp.value();
                         QVariant varFix;
-                        if (subPathPropVariantCast(var, prefix, varFix)) {
+                        if (subPathVariantCast(var, prefix, varFix)) {
                             QVariant dbusVar;
                             dbusVar.setValue(QDBusVariant(varFix));
                             connection.send(message.createReply(dbusVar));
@@ -228,12 +228,21 @@ public:
             }
 
             QVariant varFix(value);
+            auto iterFind = m_pathInfoMap.find(propName);
+            if (iterFind != m_pathInfoMap.end()) {
+                // 如果属性是subPath的属性，则需要转换
+                const DBusProxySubPathInfo &prefix = iterFind.value();
+                QVariant varTemp;
+                if (subPathVariantCast(varFix, prefix.proxyPathPrefix, varTemp)) {
+                    varFix = varTemp;
+                }
+            }
             auto iterFindProp = m_pathPropMap.find(propName);
             if (iterFindProp != m_pathPropMap.end()) {
                 // 如果属性是subPath的属性，则需要转换
                 const QString &prefix = iterFindProp.value();
                 QVariant varTemp;
-                if (subPathPropVariantCast(varFix, prefix, varTemp)) {
+                if (subPathVariantCast(varFix, prefix, varTemp)) {
                     varFix = varTemp;
                 }
             }
@@ -398,35 +407,8 @@ public:
         }
     }
 
-    bool subPathVariantCast(QVariant var, const DBusProxySubPathInfo &pathInfo, QVariant &varFix) 
-    {
-        QString varType(var.typeName());
-        if (varType == "QList<QDBusObjectPath>") {
-            QList<QDBusObjectPath> pathsFix;
-            QList<QDBusObjectPath> pathsOrg = qvariant_cast<QList<QDBusObjectPath>>(var);
-            for (auto pathOrg : pathsOrg) {
-                QString pathOrgStr = pathOrg.path();
-                QString suffix = pathOrgStr.right(pathOrgStr.size() - (pathOrgStr.lastIndexOf("/") + 1));
-                QString proxyPath = pathInfo.proxyPathPrefix + suffix;
-                pathsFix.append(QDBusObjectPath(proxyPath));
-            }
-            varFix.setValue(pathsFix);
-            return true;
-        } else if (varType == "QStringList") {
-            QStringList pathsFix;
-            QStringList pathsOrg = var.value<QStringList>();
-            for (auto pathOrg : pathsOrg) {
-                QString suffix = pathOrg.right(pathOrg.size() - (pathOrg.lastIndexOf("/") + 1));
-                QString proxyPath = pathInfo.proxyPathPrefix + suffix;
-                pathsFix.append(proxyPath);
-            }
-            varFix.setValue(pathsFix);
-            return true;
-        }
-        return false;
-    }
-
-    bool subPathPropVariantCast(QVariant var, const QString &proxyPathPrefix, QVariant &varFix) 
+    // path 的转换统一处理吧
+    bool subPathVariantCast(QVariant var, const QString &proxyPathPrefix, QVariant &varFix)
     {
         QString varType(var.typeName());
         if (varType == "QDBusObjectPath") {
@@ -441,6 +423,27 @@ public:
             QString suffix = pathOrg.right(pathOrg.size() - (pathOrg.lastIndexOf("/") + 1));
             QString proxyPath = proxyPathPrefix + suffix;
             varFix.setValue(proxyPath);
+            return true;
+        } else if (varType == "QList<QDBusObjectPath>") {
+            QList<QDBusObjectPath> pathsFix;
+            QList<QDBusObjectPath> pathsOrg = qvariant_cast<QList<QDBusObjectPath>>(var);
+            for (auto pathOrg : pathsOrg) {
+                QString pathOrgStr = pathOrg.path();
+                QString suffix = pathOrgStr.right(pathOrgStr.size() - (pathOrgStr.lastIndexOf("/") + 1));
+                QString proxyPath = proxyPathPrefix + suffix;
+                pathsFix.append(QDBusObjectPath(proxyPath));
+            }
+            varFix.setValue(pathsFix);
+            return true;
+        } else if (varType == "QStringList") {
+            QStringList pathsFix;
+            QStringList pathsOrg = var.value<QStringList>();
+            for (auto pathOrg : pathsOrg) {
+                QString suffix = pathOrg.right(pathOrg.size() - (pathOrg.lastIndexOf("/") + 1));
+                QString proxyPath = proxyPathPrefix + suffix;
+                pathsFix.append(proxyPath);
+            }
+            varFix.setValue(pathsFix);
             return true;
         }
         return false;
