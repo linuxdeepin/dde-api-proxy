@@ -1,3 +1,10 @@
+dde-api-proxy (1.0.15) unstable; urgency=medium
+
+  * chore: 放开account的接口 (#45)
+  * chore: 属性是subPath，发送的信号也需要转换 
+
+ -- fuleyi <fuleyi@uniontech.com>  Tue, 06 Aug 2024 15:43:02 +0800
+
 dde-api-proxy (1.0.14) unstable; urgency=medium
 
   * fix: the first call returned interface not found
