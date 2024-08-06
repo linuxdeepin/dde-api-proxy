@@ -15,8 +15,6 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"UserList"}));
-        InitFilterMethods(QStringList({"EnablePasswdChangedHandler", "FindUserByName"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
