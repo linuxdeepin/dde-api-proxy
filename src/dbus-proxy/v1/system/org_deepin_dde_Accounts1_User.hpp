@@ -13,8 +13,6 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
-        InitFilterProperies(QStringList({"PasswordLastChange", "AccountType", "IconFile", "UserName", "UUID", "NoPasswdLogin", "AutomaticLogin", "Locked"}));
-        InitFilterMethods(QStringList({"EnableNoPasswdLogin", "SetAutomaticLogin", "SetLocked"}));
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface * initConnect() {
