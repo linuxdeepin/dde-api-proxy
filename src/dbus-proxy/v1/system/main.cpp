@@ -22,6 +22,7 @@
 #include "system/org_deepin_dde_SystemInfo1.hpp"
 #include "system/org_deepin_dde_Timedate1.hpp"
 #include "system/org_deepin_dde_AirplaneMode1.hpp"
+#include "system/org_deepin_dde_PowerManager1.hpp"
 
 #include "deepinruntime.hpp"
 
@@ -110,6 +111,9 @@ int main(int argc, char *argv[])
         // V0 -> V1
         new SystemPasswdConf1Proxy("org.deepin.dde.PasswdConf1", "/org/deepin/dde/PasswdConf1", "org.deepin.dde.PasswdConf1", 
             "com.deepin.daemon.PasswdConf", "/com/deepin/daemon/PasswdConf", "com.deepin.daemon.PasswdConf", QDBusConnection::SystemBus);
+    } else if (parser.value(serviceOption) == "com.deepin.daemon.PowerManager") {
+        new SystemPowerManager1Proxy("org.deepin.dde.PowerManager1", "/org/deepin/dde/PowerManager1", "org.deepin.dde.PowerManager1",
+                                     "com.deepin.daemon.PowerManager", "/com/deepin/daemon/PowerManager", "com.deepin.daemon.PowerManager", QDBusConnection::SystemBus);
     }
 
     qInfo() << "proxy modules finish to start.";
