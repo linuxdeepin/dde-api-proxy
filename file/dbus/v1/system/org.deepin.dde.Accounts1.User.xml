@@ -79,6 +79,7 @@
   <property name="WeekdayFormat" type="i" access="read"/>
   <property name="Locale" type="s" access="read"/>
   <property name="NoPasswdLogin" type="b" access="read"/>
+  <property name="Workspace" type="i" access="read"/>
   <property name="FullName" type="s" access="read"/>
   <property name="DesktopBackgrounds" type="as" access="read"/>
   <property name="GreeterBackground" type="s" access="read"/>
@@ -89,6 +90,7 @@
   <property name="Locked" type="b" access="read"/>
   <property name="HistoryLayout" type="as" access="read"/>
   <property name="UserName" type="s" access="read"/>
+  <property name="UUID" type="s" access="read"/>
   <property name="Uid" type="s" access="read"/>
   <property name="Gid" type="s" access="read"/>
   <property name="HomeDir" type="s" access="read"/>
