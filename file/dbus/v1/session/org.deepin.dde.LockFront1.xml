@@ -1,4 +1,5 @@
 <interface name="org.deepin.dde.LockFront1">
+    <property access="read" type="b" name="Visible"/>
     <method name="Show"></method>
     <method name="ShowUserList"></method>
     <method name="ShowAuth">

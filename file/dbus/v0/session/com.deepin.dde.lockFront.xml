@@ -1,4 +1,5 @@
 <interface name="com.deepin.dde.lockFront">
+        <property access="read" type="b" name="Visible"/>
         <signal name="ChangKey">
             <arg name="keyEvent" type="s"/>
         </signal>
