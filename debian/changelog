@@ -1,3 +1,10 @@
+dde-api-proxy (1.0.18) unstable; urgency=medium
+
+  * feat: Expose the Visible property of lockFront in DBus interface (#53)
+  * chore: systemd hardening
+
+ -- fuleyi <fuleyi@uniontech.com>  Fri, 18 Oct 2024 15:53:08 +0800
+
 dde-api-proxy (1.0.17) unstable; urgency=medium
 
   * chore: account添加UUID、Workspace属性，解决获取不到的问题
