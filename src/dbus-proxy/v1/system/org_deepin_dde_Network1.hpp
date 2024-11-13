@@ -17,11 +17,11 @@ public:
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
     {
-        m_dbusProxy = new org::deepin::dde::Network1(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
+        m_dbusProxy = new __System_Network1(m_dbusName, m_dbusPath, QDBusConnection::systemBus(), this);
         return m_dbusProxy;
     }
 private:
-    org::deepin::dde::Network1 *m_dbusProxy;
+    __System_Network1 *m_dbusProxy;
 };
 
 

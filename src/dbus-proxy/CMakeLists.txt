@@ -14,8 +14,13 @@ find_package(PkgConfig REQUIRED)
 find_package(DtkCore REQUIRED)
 find_package(DtkTools REQUIRED)
 
-macro(qt5_add_dbus_proxy_interface_fix srcs xml class file)
-  execute_process(COMMAND ${DTK_XML2CPP} -c ${class} -p ${PROJECT_BINARY_DIR}/dbus-proxy/dbusinterface/${file} ${DBUS_FILE_PATH}/${xml})
+macro(qt5_add_dbus_proxy_interface_fix srcs xml class file neednamespace)
+    if(${neednamespace})
+        execute_process(COMMAND ${DTK_XML2CPP} -c ${class} -p ${PROJECT_BINARY_DIR}/dbus-proxy/dbusinterface/${file} ${DBUS_FILE_PATH}/${xml})
+    else()
+        execute_process(COMMAND ${DTK_XML2CPP} -c ${class} -p ${PROJECT_BINARY_DIR}/dbus-proxy/dbusinterface/${file} ${DBUS_FILE_PATH}/${xml} -N)
+    endif()
+  
   list(APPEND ${srcs}
     ${PROJECT_BINARY_DIR}/dbus-proxy/dbusinterface/${file}.h
     ${PROJECT_BINARY_DIR}/dbus-proxy/dbusinterface/${file}.cpp
