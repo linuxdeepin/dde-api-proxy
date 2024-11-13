@@ -21,7 +21,7 @@ public:
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
     {
-        m_dbusProxy = new org::deepin::dde::Display1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
+        m_dbusProxy = new __Session_Display1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;
     }
     virtual void signalMonitorCustom()
@@ -37,7 +37,7 @@ public:
         );
     }
 private:
-    org::deepin::dde::Display1 *m_dbusProxy;
+    __Session_Display1 *m_dbusProxy;
 };
 
 

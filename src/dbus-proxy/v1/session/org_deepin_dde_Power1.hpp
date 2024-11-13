@@ -17,11 +17,11 @@ public:
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
     {
-        m_dbusProxy = new org::deepin::dde::Power1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
+        m_dbusProxy = new __Session_Power1(m_dbusName, m_dbusPath, QDBusConnection::sessionBus(), this);
         return m_dbusProxy;
     }
 private:
-    org::deepin::dde::Power1 *m_dbusProxy;
+    __Session_Power1 *m_dbusProxy;
 };
 
 

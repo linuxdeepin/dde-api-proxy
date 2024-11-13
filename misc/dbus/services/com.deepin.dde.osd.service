@@ -1,4 +1,4 @@
 [D-BUS Service]
 Name=com.deepin.dde.osd
 Exec=/usr/bin/false
-SystemdService=dde-api-dbus-proxy-v1@com.deepin.dde.osd.service
+SystemdService=dde-api-dbus-proxy-v1.service

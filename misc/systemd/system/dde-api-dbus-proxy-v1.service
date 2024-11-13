@@ -1,10 +1,10 @@
 [Unit]
-Description=dde-api-proxy-v1 service for %I
+Description=dde-api-proxy-v1 service
 
 [Service]
 Type=dbus
-BusName=%I
-ExecStart=/usr/lib/dde-api-proxy/dbus-proxy/dde-api-dbus-proxy-system-v1 -s %I
+BusName=com.deepin.daemon.Accounts
+ExecStart=/usr/lib/dde-api-proxy/dbus-proxy/dde-api-dbus-proxy-v1 --system
 
 DevicePolicy=closed
 
