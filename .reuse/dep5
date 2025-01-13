@@ -31,3 +31,7 @@ License: CC-BY-4.0
 Files: *.pro *.prf *.pri *.qrc *CMakeLists.txt *.cmake *.in
 Copyright: None
 License: CC0-1.0
+
+Files: toolGenerate/**/*
+Copyright: None
+License: CC0-1.0
