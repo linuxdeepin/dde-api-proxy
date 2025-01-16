@@ -15,6 +15,11 @@ public:
     {
         InitFilterProperies(QStringList({}));
         InitFilterMethods(QStringList({}));
+        QMap<QString, QString> auth;
+        auth["SetEdgeMoveStopDuration"] = "org.deepin.dde.api.proxy";
+        auth["SetInputIgnore"] = "org.deepin.dde.api.proxy";
+        auth["SetShortPressDuration"] = "org.deepin.dde.api.proxy";
+        InitCheckAuthorization(auth);
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

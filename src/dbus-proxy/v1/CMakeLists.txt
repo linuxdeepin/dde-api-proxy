@@ -78,6 +78,7 @@ target_link_libraries(${PRO_NAME}
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::DBus
     ${DtkCore_LIBRARIES}
+    PolkitQt5-1::Core
  )
 target_include_directories(${PRO_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

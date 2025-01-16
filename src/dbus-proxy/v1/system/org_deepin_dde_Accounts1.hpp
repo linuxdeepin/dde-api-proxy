@@ -15,6 +15,17 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
+        QMap<QString, QString> auth;
+        auth["AllowGuestAccount"] = "org.deepin.dde.api.proxy";
+        auth["CreateGroup"] = "org.deepin.dde.api.proxy";
+        auth["CreateGuestAccount"] = "org.deepin.dde.api.proxy";
+        auth["CreateUser"] = "org.deepin.dde.api.proxy";
+        auth["DeleteGroup"] = "org.deepin.dde.api.proxy";
+        auth["DeleteUser"] = "org.deepin.dde.api.proxy";
+        auth["EnablePasswdChangedHandler"] = "org.deepin.dde.api.proxy";
+        auth["ModifyGroup"] = "org.deepin.dde.api.proxy";
+        auth["SetTerminalLocked"] = "org.deepin.dde.api.proxy";
+        InitCheckAuthorization(auth);
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

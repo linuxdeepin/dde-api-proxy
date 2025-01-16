@@ -20,6 +20,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
 #include <QtDBus/QtDBus>
+#include <PolkitQt1/Authority>
 
 DCORE_USE_NAMESPACE
 
@@ -89,6 +90,28 @@ public:
         m_filterMethods = list;
     }
 
+    // 不设置默认不检验，全部有权限；设置了后list中指定的才有权限
+    void InitCheckAuthorization(QMap<QString,QString> list) {
+        m_checkAuthentication = true;
+        m_methodActions = list;
+    }
+
+    bool checkAuthorization(const QString &actionId, const QString &service,const QDBusConnection &connection) const
+    {
+        auto pid = connection.interface()->servicePid(service).value();
+        auto authority = PolkitQt1::Authority::instance();
+        auto result = authority->checkAuthorizationSync(actionId,
+                                                        PolkitQt1::UnixProcessSubject(pid),
+                                                        PolkitQt1::Authority::AllowUserInteraction);
+        if (authority->hasError()) {
+            qWarning() << "checkAuthorizationSync failed:" << authority->lastError()
+                       << authority->errorDetails();
+            return false;
+        }
+
+        return result == PolkitQt1::Authority::Result::Yes;
+    }
+
     virtual bool handleMessage(const QDBusMessage &message, const QDBusConnection &connection)
     {
         qInfo() << "[statistics]";
@@ -110,6 +133,14 @@ public:
                 connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "is not allowed"));
                 return true;
             }
+            if (m_checkAuthentication && m_methodActions.contains(message.member())) {
+                if (!checkAuthorization(m_methodActions[message.member()], message.service(), connection)) {
+                    qInfo() << m_proxyDbusInterface << "method authentication:" << message.member() << "is not allowed.";
+                    connection.send(message.createErrorReply("com.deepin.dde.error.NotAllowed", "is not allowed"));
+                    return true;
+                }
+            }
+
             QDBusPendingCall call = m_proxy->asyncCallWithArgumentList(message.member(), message.arguments());
             call.waitForFinished();
             connection.send(message.createReply(call.reply().arguments()));
@@ -476,6 +507,8 @@ private:
     QStringList m_filterProperies;
     bool m_filterMethodsEnable;
     QStringList m_filterMethods;
+    bool m_checkAuthentication;
+    QMap<QString, QString> m_methodActions;
     // subpath
     QMap<QString, DBusProxyBase *> m_pathMap;
     QMap<QString, DBusProxySubPathInfo> m_pathInfoMap;

@@ -13,6 +13,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core DBus REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(DtkCore REQUIRED)
 find_package(DtkTools REQUIRED)
+find_package(PolkitQt5-1 REQUIRED)
 
 macro(qt5_add_dbus_proxy_interface_fix srcs xml class file neednamespace)
     if(${neednamespace})
