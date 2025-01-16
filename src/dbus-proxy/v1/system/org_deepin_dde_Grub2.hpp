@@ -15,6 +15,9 @@ public:
     {
         InitFilterProperies(QStringList({}));
         InitFilterMethods(QStringList({"SetTimeout"}));
+        QMap<QString, QString> auth;
+        auth["SetTimeout"] = "org.deepin.dde.api.proxy";
+        InitCheckAuthorization(auth);
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

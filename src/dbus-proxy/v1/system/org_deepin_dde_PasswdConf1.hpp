@@ -15,6 +15,16 @@ public:
     {
         InitFilterProperies(QStringList({}));
         InitFilterMethods(QStringList({"GetEnabled", "GetLengthLimit", "GetValidateRequired", "WriteConfig"}));
+        QMap<QString, QString> auth;
+        auth["Backup"] = "org.deepin.dde.api.proxy";
+        auth["Reset"] = "org.deepin.dde.api.proxy";
+        auth["SetEnabled"] = "org.deepin.dde.api.proxy";
+        auth["SetFirstLetterUpper"] = "org.deepin.dde.api.proxy";
+        auth["SetLengthLimit"] = "org.deepin.dde.api.proxy";
+        auth["SetValidatePolicy"] = "org.deepin.dde.api.proxy";
+        auth["SetValidateRequired"] = "org.deepin.dde.api.proxy";
+        auth["WriteConfig"] = "org.deepin.dde.api.proxy";
+        InitCheckAuthorization(auth);
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

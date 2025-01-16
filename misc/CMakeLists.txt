@@ -13,3 +13,6 @@ install(FILES ${INSTALL_SYSTEMD_SYSTEM} DESTINATION lib/systemd/system/)
 
 file(GLOB_RECURSE INSTALL_SYSTEMD_USER ${CMAKE_CURRENT_SOURCE_DIR}/systemd/user/*.service)
 install(FILES ${INSTALL_SYSTEMD_USER} DESTINATION lib/systemd/user/)
+
+file(GLOB_RECURSE INSTALL_POLKIT_1 ${CMAKE_CURRENT_SOURCE_DIR}/polkit-1/actions/*.policy)
+install(FILES ${INSTALL_POLKIT_1} DESTINATION share/polkit-1/actions/)

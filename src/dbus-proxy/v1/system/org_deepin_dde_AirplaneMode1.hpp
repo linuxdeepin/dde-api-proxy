@@ -13,6 +13,11 @@ public:
         QDBusConnection::BusType dbusType, QObject *parent = nullptr) 
         : DBusProxyBase(dbusName, dbusPath, dbusInterface, proxyDbusName, proxyDbusPath, proxyDbusInterface, dbusType, parent)
     {
+        QMap<QString, QString> auth;
+        auth["Enable"] = "org.deepin.dde.api.proxy";
+        auth["EnableBluetooth"] = "org.deepin.dde.api.proxy";
+        auth["EnableWifi"] = "org.deepin.dde.api.proxy";
+        InitCheckAuthorization(auth);
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

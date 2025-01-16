@@ -15,6 +15,13 @@ public:
     {
         InitFilterProperies(QStringList({"NTPServer"}));
         InitFilterMethods(QStringList({"SetNTPServer"}));
+        QMap<QString, QString> auth;
+        auth["SetLocalRTC"] = "org.deepin.dde.api.proxy";
+        auth["SetNTP"] = "org.deepin.dde.api.proxy";
+        auth["SetNTPServer"] = "org.deepin.dde.api.proxy";
+        auth["SetTime"] = "org.deepin.dde.api.proxy";
+        auth["SetTimezone"] = "org.deepin.dde.api.proxy";
+        InitCheckAuthorization(auth);
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

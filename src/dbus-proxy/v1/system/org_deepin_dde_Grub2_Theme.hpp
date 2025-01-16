@@ -15,6 +15,9 @@ public:
     {
         // InitFilterProperies(QStringList({}));
         // InitFilterMethods(QStringList({"SetBackgroundSourceFile"}));
+        QMap<QString, QString> auth;
+        auth["SetBackgroundSourceFile"] = "org.deepin.dde.api.proxy";
+        InitCheckAuthorization(auth);
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()

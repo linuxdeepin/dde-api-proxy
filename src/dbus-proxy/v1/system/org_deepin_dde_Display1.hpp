@@ -15,6 +15,10 @@ public:
     {
         InitFilterProperies(QStringList({}));
         InitFilterMethods(QStringList({"GetConfig"}));
+        QMap<QString, QString> auth;
+        auth["SetBacklightBrightness"] = "org.deepin.dde.api.proxy";
+        auth["SetConfig"] = "org.deepin.dde.api.proxy";
+        InitCheckAuthorization(auth);
         ServiceStart();
     }
     virtual DDBusExtendedAbstractInterface *initConnect()
