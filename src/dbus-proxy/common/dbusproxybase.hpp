@@ -98,10 +98,9 @@ public:
 
     bool checkAuthorization(const QString &actionId, const QString &service,const QDBusConnection &connection) const
     {
-        auto pid = connection.interface()->servicePid(service).value();
         auto authority = PolkitQt1::Authority::instance();
         auto result = authority->checkAuthorizationSync(actionId,
-                                                        PolkitQt1::UnixProcessSubject(pid),
+                                                        PolkitQt1::SystemBusNameSubject(service),
                                                         PolkitQt1::Authority::AllowUserInteraction);
         if (authority->hasError()) {
             qWarning() << "checkAuthorizationSync failed:" << authority->lastError()
