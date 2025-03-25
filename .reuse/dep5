@@ -23,7 +23,7 @@ Files: *.md README README.zh_CN.md
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
-Files: *.service *.conf *.xml
+Files: *.service *.conf *.xml *.policy
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
