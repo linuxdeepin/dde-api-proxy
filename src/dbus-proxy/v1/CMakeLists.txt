@@ -77,16 +77,16 @@ add_executable(${PRO_NAME}
 target_link_libraries(${PRO_NAME}
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::DBus
-    ${DtkCore_LIBRARIES}
-    PolkitQt5-1::Core
+    Dtk${DTK_VERSION_MAJOR}::Core
+    PolkitQt${QT_VERSION_MAJOR}-1::Core
  )
 target_include_directories(${PRO_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${PROXY_DBUSEXTENDED_INCLUDE}
+    ${DBUS_PROXY_SOURCE_PATH}/
     ${DBUS_PROXY_SOURCE_PATH}/dbus/
     ${DBUS_PROXY_SOURCE_PATH}/common/
     ${QT_DBUS_PROXY_INTERFACE_INCLUDE}
     ${DBUS_FILE_PATH}
-    ${DtkCore_INCLUDE_DIRS}
 )
 install(TARGETS ${PRO_NAME} DESTINATION lib/dde-api-proxy/dbus-proxy/)

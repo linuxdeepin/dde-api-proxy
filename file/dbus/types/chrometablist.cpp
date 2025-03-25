@@ -23,7 +23,7 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, ChromeTabInfo &info)
     return arg;
 }
 
-bool ChromeTabInfo::operator ==(const ChromeTabInfo &info)
+bool ChromeTabInfo::operator ==(const ChromeTabInfo &info) const
 {
     return id == info.id;
 }

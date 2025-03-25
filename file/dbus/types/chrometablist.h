@@ -18,7 +18,8 @@ struct ChromeTabInfo {
     quint64 memory;
     QString title;
 
-    bool operator ==(const ChromeTabInfo& info);
+    bool operator ==(const ChromeTabInfo& info) const;
+    bool operator !=(const ChromeTabInfo& info) { return !operator==(info); }
 };
 
 typedef QList<ChromeTabInfo> ChromeTabList;

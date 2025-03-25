@@ -17,7 +17,8 @@ struct LocaleInfo {
     QString id;
     QString name;
 
-    bool operator ==(const LocaleInfo& info);
+    bool operator ==(const LocaleInfo& info) const;
+    bool operator !=(const LocaleInfo& info) { return !operator==(info); }
 };
 
 typedef QList<LocaleInfo> LocaleList;

@@ -33,7 +33,7 @@ const QDataStream &operator>>(QDataStream &ds, LocaleInfo &info)
     return ds >> info.id >> info.name;
 }
 
-bool LocaleInfo::operator ==(const LocaleInfo &info)
+bool LocaleInfo::operator ==(const LocaleInfo &info) const
 {
     return id==info.id && name==info.name;
 }

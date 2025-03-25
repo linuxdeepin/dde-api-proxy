@@ -5,7 +5,7 @@
 
 #include "inputdevicelist.h"
 
-bool InputDevice::operator ==(const InputDevice &device)
+bool InputDevice::operator ==(const InputDevice &device) const
 {
     return this->deviceType == device.deviceType && this->interface == device.interface;
 }
