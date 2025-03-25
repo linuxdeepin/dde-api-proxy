@@ -24,6 +24,14 @@ QDebug operator<<(QDebug debug, const ScreenRect &rect)
     return debug;
 }
 
+bool ScreenRect::operator ==(const ScreenRect &rect) const
+{
+    return this->x == rect.x &&
+            this->y == rect.y &&
+            this->w == rect.w &&
+            this->h == rect.h;
+}
+
 ScreenRect::operator QRect() const
 {
     return QRect(x, y, w, h);

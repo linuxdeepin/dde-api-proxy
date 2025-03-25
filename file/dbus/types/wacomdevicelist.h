@@ -16,7 +16,7 @@ struct WacomDevice {
     QString interface;
     QString deviceType;
 
-    bool operator ==(const WacomDevice& device);
+    bool operator ==(const WacomDevice& device) const;
 };
 
 typedef QList<WacomDevice> WacomDeviceList;

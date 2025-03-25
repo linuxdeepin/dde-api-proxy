@@ -326,14 +326,19 @@ public:
         QVariant var;
         for (int i = 0; i != met.parameterCount(); ++i)
         {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            auto type = met.parameterMetaType(i);
+            if(!type.isValid())
+#else
             int type = met.parameterType(i);
-            void *arg = arguments[i + 1];
-
-            if(type == QMetaType::UnknownType)
+            if (type == QMetaType::UnknownType)
+#endif
             {
                 qInfo() << "未知类型，不作处理 !";
                 return;
             }
+
+            void *arg = arguments[i + 1];
 
             var = QVariant(type, arg);
             argumentsList << var;

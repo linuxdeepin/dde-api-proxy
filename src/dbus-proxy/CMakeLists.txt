@@ -8,12 +8,11 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # NOTE: While this project is deprecated, it might still be needed for compatibility reasons. Currently it cannot be compiled with Qt6
-find_package(QT NAMES Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core DBus REQUIRED)
 find_package(PkgConfig REQUIRED)
-find_package(DtkCore REQUIRED)
-find_package(DtkTools REQUIRED)
-find_package(PolkitQt5-1 REQUIRED)
+find_package(Dtk${DTK_VERSION_MAJOR}Core REQUIRED)
+find_package(Dtk${DTK_VERSION_MAJOR}Tools REQUIRED)
+find_package(PolkitQt${QT_VERSION_MAJOR}-1 REQUIRED)
 
 macro(qt5_add_dbus_proxy_interface_fix srcs xml class file neednamespace)
     if(${neednamespace})

@@ -5,7 +5,7 @@
 
 #include "wacomdevicelist.h"
 
-bool WacomDevice::operator ==(const WacomDevice &device)
+bool WacomDevice::operator ==(const WacomDevice &device) const
 {
     return this->deviceType == device.deviceType && this->interface == device.interface;
 }

@@ -23,6 +23,14 @@ QDebug operator<<(QDebug debug, const DockRect &rect)
     return debug;
 }
 
+bool DockRect::operator ==(const DockRect &rect) const
+{
+    return this->x == rect.x &&
+            this->y == rect.y &&
+            this->w == rect.w &&
+            this->h == rect.h;
+}
+
 DockRect::operator QRect() const
 {
     return QRect(x, y, w, h);

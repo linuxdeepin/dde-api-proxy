@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: 2018 - 2022 UnionTech Software Technology Co., Ltd.
 // 
 // SPDX-License-Identifier: GPL-3.0-or-later
-#ifndef QVARIANTMAP_H
-#define QVARIANTMAP_H
+#ifndef DDE_QVARIANTMAP_H
+#define DDE_QVARIANTMAP_H
 
 #include <QList>
 #include <QVariant>
@@ -12,4 +12,4 @@ typedef QMap<QString, QVariant> QVariantMap;
 
 void registerQVariantMapMetaType();
 
-#endif // QVARIANTMAP_H
+#endif // DDE_QVARIANTMAP_H

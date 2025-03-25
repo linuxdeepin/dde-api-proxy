@@ -16,7 +16,8 @@ struct InputDevice {
     QString interface;
     QString deviceType;
 
-    bool operator ==(const InputDevice& device);
+    bool operator ==(const InputDevice& device) const;
+    bool operator !=(const InputDevice& device) { return !operator==(device); }
 };
 
 typedef QList<InputDevice> InputDeviceList;

@@ -20,6 +20,8 @@ public:
     friend QDebug operator<<(QDebug debug, const ScreenRect &rect);
     friend const QDBusArgument &operator>>(const QDBusArgument &arg, ScreenRect &rect);
     friend QDBusArgument &operator<<(QDBusArgument &arg, const ScreenRect &rect);
+    bool operator ==(const ScreenRect& rect) const;
+    bool operator !=(const ScreenRect& rect) { return !operator==(rect); }
 
 private:
     qint16 x;
