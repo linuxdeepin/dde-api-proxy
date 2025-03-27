@@ -24,7 +24,6 @@ Package: dde-api-dbus-proxy-v1
 Architecture: any
 Depends:
  dde-daemon (>= 6.0.7),
- dde-permission-manager (>= 1.0.5),
  lastore-daemon (>= 6.0.2),
  dde-launcher (>= 6.0.5.2) | dde-launchpad (>= 0.0.1),
  dde-control-center (>= 6.0.5),
